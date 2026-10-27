@@ -70,45 +70,51 @@ const FOMC=[20260128,20260318,20260429,20260617,20260729,20260916,20261028,20261
             20270127,20270317,20270428,20270609,20270728,20270915,20271027,20271208];
 
 const md=n=>`${Math.floor(n/100)%100}/${n%100}`;
-// [verdict, the claim, where it ended up in the book]
 const V={o:"○",t:"△",x:"×"};
+// the book's verdicts, in both languages
+const FATE={keep:["残っている","Still there"],fade:["減った","Faded"],never:["初めから無かった","Never there"],rev:["減って、反転した","Faded, then reversed"],
+  undec:["決められない","Undecided"],pub:["公表されて消えた","Vanished after publication"],alias:["9月と年末年始の別名","Another name for September and the year-end window"]};
+const MON=["January","February","March","April","May","June","July","August","September","October","November","December"];
+// each item: v (o ○ / t △ / x ×), when, claim, fate — with ja and en for the last three
 function today(n){
-  const y=Math.floor(n/10000),m=Math.floor(n/100)%100,d=n%100,out=[],add=(v,when,claim,fate,ch)=>out.push({v,when,claim,fate,ch});
+  const y=Math.floor(n/10000),m=Math.floor(n/100)%100,d=n%100,out=[];
+  const add=(v,when,claim,fate)=>out.push({v,when,claim,fate:FATE[fate]});
   const trading=isTrading(n);
-  if(retro(n)){const [a,b]=retroSpan(n);add("x",`水星逆行中（${md(a)}〜${md(b)}）`,"逆行中は下がる","初めから無かった","序章")}
+  if(retro(n)){const [a,b]=retroSpan(n);add("x",[`水星逆行中（${md(a)}〜${md(b)}）`,`Mercury retrograde (${md(a)}–${md(b)})`],["逆行中は下がる","Stocks fall during Mercury retrograde"],"never")}
   const nm=nearestPhase(n,0),fm=nearestPhase(n,180);
-  if(nm&&Math.abs(daysBetween(nm,n))<=3)add("t",`新月のころ（新月 ${md(nm)}）`,"新月のころは上がる","決められない","第十二章");
-  else if(fm&&Math.abs(daysBetween(fm,n))<=3)add("t",`満月のころ（満月 ${md(fm)}）`,"満月のころは新月より低い","決められない","第十二章");
+  if(nm&&Math.abs(daysBetween(nm,n))<=3)add("t",[`新月のころ（新月 ${md(nm)}）`,`Around the new moon (${md(nm)})`],["新月のころは上がる","Stocks rise around the new moon"],"undec");
+  else if(fm&&Math.abs(daysBetween(fm,n))<=3)add("t",[`満月のころ（満月 ${md(fm)}）`,`Around the full moon (${md(fm)})`],["満月のころは新月より低い","Full moon returns are lower than new moon"],"undec");
   // presidential cycle (midterm year: y%4==2)
   const c=y%4;
-  if((c===2&&m>=10)||(c===3&&m<=6))add("o","中間選挙の年10月〜翌6月","甘い9か月は強い","残っている","第九章");
-  if(c===2&&m>=4&&m<=9)add("o","中間選挙の年4月〜9月","弱い6か月は弱い","残っている","第九章");
-  if(c===0)add("x","大統領選挙の年","選挙の年は上がる","初めから無かった","第八章");
-  if(c===1)add("x","選挙の翌年","選挙の翌年は弱い","初めから無かった","第八章");
+  if((c===2&&m>=10)||(c===3&&m<=6))add("o",["中間選挙の年10月〜翌6月","Midterm October to the next June"],["甘い9か月は強い","The sweet 9 months are strong"],"keep");
+  if(c===2&&m>=4&&m<=9)add("o",["中間選挙の年4月〜9月","Midterm April to September"],["弱い6か月は弱い","The weak 6 months are weak"],"keep");
+  if(c===0)add("x",["大統領選挙の年","Presidential election year"],["選挙の年は上がる","Election years rise"],"never");
+  if(c===1)add("x",["選挙の翌年","Post-election year"],["選挙の翌年は弱い","Post-election years are weak"],"never");
   // months
-  if(m===9)add("o","9月","9月は悪い","残っている","第一章");
-  if(m===10)add("t","10月","10月は荒れる","減った","第七章");
-  if(m===11)add("t","11月","11月は上がる","減った","第一章");
-  if(m===8)add("x","8月","夏枯れで8月は弱い","初めから無かった","第一章");
-  if(m===1)add("x","1月","1月のバロメーター","初めから無かった","第一章");
-  if(m===5)add("x","5月","Sell in May","9月と年末年始の別名","第六章");
+  const mn=[`${m}月`,MON[m-1]];
+  if(m===9)add("o",mn,["9月は悪い","September is bad"],"keep");
+  if(m===10)add("t",mn,["10月は荒れる","October is volatile"],"fade");
+  if(m===11)add("t",mn,["11月は上がる","November rises"],"fade");
+  if(m===8)add("x",mn,["夏枯れで8月は弱い","August is weak (summer doldrums)"],"never");
+  if(m===1)add("x",mn,["1月のバロメーター","The January barometer"],"never");
+  if(m===5)add("x",mn,["Sell in May","Sell in May"],"alias");
   if(trading){
     const T=tradingInMonth(y,m),i=T.indexOf(n),fromEnd=T.length-1-i;
     // the month-turn window: the last 2 trading days and the first 3
-    if(i<=2||fromEnd<=1)add("t",i<=2?`月初 ${i+1}営業日目`:`月末 ${fromEnd===0?"最終":"最終の前"}営業日`,"月末月初は上がる","減った","第二章");
-    if(d<=15)add("t","月の前半","月の前半は強い","減った","第二章");
+    if(i<=2||fromEnd<=1)add("t",i<=2?[`月初 ${i+1}営業日目`,`Trading day ${i+1} of the month`]:fromEnd===0?["月末 最終営業日","Last trading day of the month"]:["月末 最終の前の営業日","Second-to-last trading day of the month"],["月末月初は上がる","The turn of the month rises"],"fade");
+    if(d<=15)add("t",["月の前半","First half of the month"],["月の前半は強い","The first half of the month is strong"],"fade");
     const w=wd(n);
-    if(w===1)add("t","月曜日","月曜は下がる","減って、反転した","第三章");
-    if(w===5)add("t","金曜日","金曜は上がる","減って、反転した","第三章");
+    if(w===1)add("t",["月曜日","Monday"],["月曜は下がる","Mondays fall"],"rev");
+    if(w===5)add("t",["金曜日","Friday"],["金曜は上がる","Fridays rise"],"rev");
     // the day before a holiday: the next weekday is closed
     let nx=addDays(n,1);while(wd(nx)===0||wd(nx)===6)nx=addDays(nx,1);
-    if(!isTrading(nx))add("t","祝日の前日","祝日の前は上がる","減った","第四章");
+    if(!isTrading(nx))add("t",["祝日の前日","Day before a holiday"],["祝日の前は上がる","Pre-holiday days rise"],"fade");
     // Santa Claus rally: the last 5 trading days of December and the first 2 of January
-    if((m===12&&fromEnd<=4)||(m===1&&i<=1))add("t","年末年始の7営業日","サンタクロース・ラリー","減った","第五章");
+    if((m===12&&fromEnd<=4)||(m===1&&i<=1))add("t",["年末年始の7営業日","The 7 trading days around New Year"],["サンタクロース・ラリー","The Santa Claus rally"],"fade");
     // major SQ: the third Friday of March, June, September, December (moved back to the trading day before when closed)
-    if([3,6,9,12].includes(m)){let sq=nth(y,m,5,3);if(!isTrading(sq))sq=prevTrading(sq);if(sq===n)add("x","メジャーSQ","SQの日は荒れる","初めから無かった","第七章")}
+    if([3,6,9,12].includes(m)){let sq=nth(y,m,5,3);if(!isTrading(sq))sq=prevTrading(sq);if(sq===n)add("x",["メジャーSQ","Triple witching"],["SQの日は荒れる","Triple witching days are volatile"],"never")}
     // FOMC: the day before the announcement and the day itself
-    for(const f of FOMC){if(f===n||prevTrading(f)===n){add("x",f===n?"FOMCの発表日":"FOMCの発表前日","発表の前は上がる","公表されて消えた","第十一章");break}}
+    for(const f of FOMC){if(f===n||prevTrading(f)===n){add("x",f===n?["FOMCの発表日","FOMC announcement day"]:["FOMCの発表前日","Day before the FOMC announcement"],["発表の前は上がる","Stocks rise before FOMC announcements"],"pub");break}}
   }
   const order={o:0,t:1,x:2};out.sort((a,b)=>order[a.v]-order[b.v]);
   return {trading,items:out};

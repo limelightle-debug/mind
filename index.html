@@ -15,7 +15,7 @@
 <meta name="theme-color" content="#0a0a1a">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=LINE+Seed+JP:wght@400;700;800&family=Shippori+Mincho:wght@600;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=LINE+Seed+JP:wght@400;700;800&display=swap">
 <style>
 :root{
   /* the same navy palette as the other apps */
@@ -23,7 +23,6 @@
   --red:#ca2323; --up:#4CAF50; --dn:#F44336; --amber:#FF9800;
   --f-tick:"Archivo","Helvetica Neue",Arial,sans-serif;
   --f-body:"LINE Seed JP","Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",system-ui,sans-serif;
-  --f-min:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif;
   color-scheme:dark;
 }
 *{box-sizing:border-box}
@@ -36,6 +35,7 @@ a{color:inherit}
 .num{font-family:var(--f-tick);font-stretch:82%;font-variant-numeric:tabular-nums}
 .top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:1px solid var(--line);padding:12px 0 8px}
 .brand{display:flex;align-items:center;gap:10px}
+.langseg{position:absolute;right:0;top:18px;display:flex;background:var(--chip);border:1px solid var(--line);border-radius:8px;padding:2px;gap:2px}.langseg button{appearance:none;border:0;background:transparent;color:var(--muted);font:700 12px/1 var(--f-body);letter-spacing:.04em;padding:7px 9px;border-radius:6px;cursor:pointer}.langseg button[aria-pressed="true"]{background:var(--panel);color:var(--ink);box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.9),0 1px 2px rgba(0,0,0,.4)}
 .avatar{width:44px;height:44px;border-radius:10px;flex:none;box-shadow:0 0 0 1px var(--line)}
 h1{margin:0;font-size:21px;font-weight:800;letter-spacing:.04em;line-height:1.15}
 .ed{font-size:12px;color:var(--muted);margin-top:2px}
@@ -48,7 +48,7 @@ h1{margin:0;font-size:21px;font-weight:800;letter-spacing:.04em;line-height:1.15
 .date span{display:block;margin-top:8px;font-size:13px;color:var(--muted);letter-spacing:.08em}
 .panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-top:10px}
 .ph{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin:2px 0 10px}
-.ph h2{margin:0;font-size:17px;font-weight:800;letter-spacing:.04em;color:var(--ink)}
+.ph h2{white-space:nowrap;margin:0;font-size:17px;font-weight:800;letter-spacing:.04em;color:var(--ink)}
 .ph .asof{font-size:12px;color:var(--muted)}
 .empty{padding:40px 0;text-align:center;color:var(--muted)}
 /* the four acts */
@@ -67,14 +67,9 @@ h1{margin:0;font-size:21px;font-weight:800;letter-spacing:.04em;line-height:1.15
 .kv small{display:block;font-family:var(--f-tick);font-stretch:82%;font-size:11.5px;color:var(--ink2);white-space:nowrap}
 .kv b.j{font-family:var(--f-body);font-stretch:100%;font-size:15px;line-height:1.55}
 /* the word */
-.word{margin:4px 0 4px;font-family:var(--f-min);font-weight:800;font-size:18px;line-height:1.75;letter-spacing:.02em}
-.word::before{content:"「"}.word::after{content:"」"}
+.word{margin:4px 0 4px;font-weight:800;font-size:18px;line-height:1.75;letter-spacing:.02em}
 .wmeta{font-size:12px;color:var(--muted)}
 .wmeta b{font-family:var(--f-tick);font-stretch:82%;color:var(--ink2)}
-.more{margin-top:12px;border-top:1px solid var(--line)}
-.more p{margin:0;padding:9px 0;border-bottom:1px solid var(--line);font-family:var(--f-min);font-weight:600;font-size:14.5px;line-height:1.7;color:var(--ink2)}
-.more p:last-child{border-bottom:0;padding-bottom:0}
-.more p i{font-style:normal;font-family:var(--f-tick);font-stretch:82%;font-size:11px;color:var(--muted);margin-right:6px}
 /* biases */
 .bias{padding:10px 0;border-top:1px solid var(--line)}
 .bias:first-of-type{border-top:0;padding-top:2px}
@@ -93,15 +88,16 @@ h1{margin:0;font-size:21px;font-weight:800;letter-spacing:.04em;line-height:1.15
 /* reference lists */
 .grp{margin:16px 0 4px;font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.06em}
 .grp:first-of-type{margin-top:0}
-.ref p{margin:0;padding:8px 0;border-top:1px solid var(--line);font-family:var(--f-min);font-weight:600;font-size:14px;line-height:1.7}
-.ref p i{font-style:normal;font-family:var(--f-tick);font-stretch:82%;font-size:12px;color:var(--muted);margin-right:6px}
+.ref p{margin:0;padding:9px 0;border-top:1px solid var(--line);font-size:15px;font-weight:700;line-height:1.6}
+.grp+p{border-top:0}
+.ref p i{display:block;font-style:normal;font-weight:400;font-size:12px;color:var(--muted)}
 .ref p.on{color:#fff}
 .ref p.on i{color:var(--red)}
-.act h3{margin:0 0 2px;font-size:15px;font-weight:800}
-.act h3 small{display:block;font-weight:400;font-size:12px;color:var(--muted);margin-top:1px}
-.act{padding:10px 0;border-top:1px solid var(--line)}
-.act:first-of-type{border-top:0;padding-top:2px}
-.ph+.act{border-top:0;padding-top:2px}
+.act>h3{margin:16px 0 4px;font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.06em}
+.act>h3 small{display:block;font-size:12px;font-weight:400;letter-spacing:0;margin-top:1px}
+.act{padding:0}
+.act:first-of-type>h3{margin-top:0}
+.act>h3+.bias{border-top:0;padding-top:2px}
 .act.on>h3{color:#fff}
 .bias.cur h3{color:#fff}
 .bias.cur h3::after{content:"注意";display:inline-block;font-size:10px;font-weight:800;color:#fff;background:var(--red);border-radius:4px;padding:1px 5px;margin-left:6px;vertical-align:2px}
@@ -130,6 +126,7 @@ h1{margin:0;font-size:21px;font-weight:800;letter-spacing:.04em;line-height:1.15
   <header class="top">
     <div class="brand"><img class="avatar" src="icons/icon-192.png" alt="" width="44" height="44">
       <div><h1>Mind</h1></div></div>
+    <div class="langseg" id="lang" role="group" aria-label="Language"><button type="button" data-lang="ja">JP</button><button type="button" data-lang="en">EN</button></div>
     <nav class="seg" id="tabs">
       <button data-tab="today" aria-pressed="true">今日</button>
       <button data-tab="words" aria-pressed="false">言葉</button>
@@ -155,92 +152,97 @@ h1{margin:0;font-size:21px;font-weight:800;letter-spacing:.04em;line-height:1.15
 <script src="engine.js"></script>
 <script src="calendar.js"></script>
 <script>
-const APP_VER="mind-v10";
+const APP_VER="mind-v11";
 const $=id=>document.getElementById(id);
 const DATA_BASE="/mri-app/data/";
+// language: shared with the other apps on this site ("lang" in localStorage)
+let LANG=(()=>{try{const v=localStorage.getItem("lang");if(v==="ja"||v==="en")return v}catch(e){}return /^ja/i.test(navigator.language||"")?"ja":"en"})();
+const L=(ja,en)=>LANG==="en"?en:ja;   // pick by language
+const P=a=>Array.isArray(a)?(LANG==="en"?a[1]:a[0]):a;
 
-// 第四章 30の言葉
+// 第四章 30の言葉 [n, ja, en]
 const WORDS=[
-  ["恐怖と向き合う",[[1,"恐怖を制するものは相場を制す。恐怖の底は浅いものではない。悲鳴も聞こえなくなる"],[2,"恐怖は伝播し、増幅しながら全てを呑み込んでいく。恐怖のどん底では、確信がなければ買い向かえない"],[3,"怯えるのではなく、備える。準備はとっくに終わっている"]]],
-  ["待機金は命綱",[[4,"待機金という言葉がとても好きだ。ただ待つのではなく、機をうかがいながら。そこには張りつめた緊張感がある"],[5,"時間を味方につけるとは、待つことが大事だということだ"],[6,"警戒せよとは、カウンターを打つ準備ができているかを確認せよとの意味だ。待機金がゼロとは、弾倉が空っぽの銃を持って戦場に立つことだ"]]],
-  ["大衆の逆",[[7,"常識を疑え。投資の世界における常識とは大衆の考えだ。大衆が群がるものは大抵危うく、大衆が危ういというものは大抵良いものだ"],[8,"誰も買えないタイミングで買うと勝てる。皆が買うタイミングで買うと負ける。皆が完全に興味を失ったものを執念深く持っていると破綻する"],[9,"天井で売ると言う者は、天井を見つけるロジックを持っていない"],[10,"パーティーに遅れて行けば、ぬるいシャンパンと乾いた料理が待っている"],[11,"全ての資産クラスが売られ、キャッシュがキングとなる時。それが大底だ"]]],
-  ["感情を排除",[[12,"正しい予想などしようとするな。正しい行動をしろ"],[13,"感情は完全に排除している。売買タイミングと量は全て数学的に算出され、事前に決定されている"],[14,"買いたい時はもっと下がって欲しいと思う。この感情に折り合いをつけることは出来ない。だから全て排除するため長期クオンツを選択した"]]],
-  ["失敗と戦略",[[15,"仮説、検証、棄却。90%以上は棄却だ。それは失敗ではない。実行前に何度でも棄却しろ"],[16,"間違いに気づいた時が、損切りの最良のタイミングだ"],[17,"戦術にこだわりすぎて、戦略を見失う。戦略にこだわりすぎて、目的を見失う。目的にこだわりすぎて、環境の変化に気づかない"],[18,"調子にのったら終わり。失敗のほとんどは後から振り返るとこれが原因だ"],[19,"あの時買っておけばよかった。負ける人がよく言うセリフだ"]]],
-  ["才能と覚悟",[[20,"底で買って高く売るだけ。そのために途方もない時間を学習に費やした。それを苦労だと思わないのが才能だ"],[21,"失敗を糧として成長するは正しいが、生き残ることが前提条件だ"],[22,"確信とは、他人に貰うものではなく、自己完結するものだ。夜明け前が一番暗いは本当だ。確信がなければカウンターは打てない"],[23,"ここで買えるか買えないかで、力量がわかる。勝つ負けるではない。買えるか買えないかだ"]]],
-  ["個人投資家の優位性",[[24,"ヘッジファンドは静観することが許されない。個人投資家は全てが許される。それに気づき実行した時、プロが動けない場所が買い場になる"],[25,"儲かる年か、仕込む年か。その2つしかない"],[26,"右往左往してはいけない。長期投資はクルーズ船の操舵だ。ボートレースをやっているわけではない"]]],
-  ["テクノロジーの未来",[[27,"テクノロジーの未来だけは、強く信じられる。誰が何と言おうと、揺らがない"],[28,"テクノロジーはいつも不安と懸念の種だが、いい意味でそれを裏切ってきた"]]],
-  ["幸福と投資",[[29,"幸福であることが、投資をする上で最も重要な要素だ。丁寧な生活で、丁寧な投資を"],[30,"不幸とは何か。皆スラスラと答える。幸福とは何か。皆わからないと言う。数学的に言えば、幸福とは不幸でないことだ"]]]];
-const W={};WORDS.forEach(([g,ws])=>ws.forEach(([n,t])=>W[n]={n,t,g}));
+  [["恐怖と向き合う","Facing fear"],[[1,"恐怖を制するものは相場を制す。恐怖の底は浅いものではない。悲鳴も聞こえなくなる","Whoever masters fear masters the market. The bottom of fear is not shallow. Even the screams fall silent."],[2,"恐怖は伝播し、増幅しながら全てを呑み込んでいく。恐怖のどん底では、確信がなければ買い向かえない","Fear spreads and amplifies until it swallows everything. At the very bottom of fear, you cannot buy without conviction."],[3,"怯えるのではなく、備える。準備はとっくに終わっている","Don't be afraid. Be prepared. The preparation was finished long ago."]]],
+  [["待機金は命綱","Standby cash is a lifeline"],[[4,"待機金という言葉がとても好きだ。ただ待つのではなく、機をうかがいながら。そこには張りつめた緊張感がある","I love the words \"standby cash.\" Not just waiting, but watching for the moment. There is a taut tension in it."],[5,"時間を味方につけるとは、待つことが大事だということだ","Putting time on your side means knowing that waiting matters."],[6,"警戒せよとは、カウンターを打つ準備ができているかを確認せよとの意味だ。待機金がゼロとは、弾倉が空っぽの銃を持って戦場に立つことだ","\"Stay alert\" means: check that you are ready to counterpunch. Zero standby cash is standing on a battlefield with an empty magazine."]]],
+  [["大衆の逆","Against the crowd"],[[7,"常識を疑え。投資の世界における常識とは大衆の考えだ。大衆が群がるものは大抵危うく、大衆が危ういというものは大抵良いものだ","Question common sense. In investing, common sense is the crowd's view. What the crowd flocks to is usually dangerous; what the crowd calls dangerous is usually good."],[8,"誰も買えないタイミングで買うと勝てる。皆が買うタイミングで買うと負ける。皆が完全に興味を失ったものを執念深く持っていると破綻する","Buy when no one can, and you win. Buy when everyone buys, and you lose. Cling to what everyone has completely lost interest in, and you go broke."],[9,"天井で売ると言う者は、天井を見つけるロジックを持っていない","Those who say they will sell at the top have no logic for finding the top."],[10,"パーティーに遅れて行けば、ぬるいシャンパンと乾いた料理が待っている","Arrive late to the party and you get warm champagne and dried-out food."],[11,"全ての資産クラスが売られ、キャッシュがキングとなる時。それが大底だ","When every asset class is sold and cash is king, that is the bottom."]]],
+  [["感情を排除","Removing emotion"],[[12,"正しい予想などしようとするな。正しい行動をしろ","Don't try to predict correctly. Act correctly."],[13,"感情は完全に排除している。売買タイミングと量は全て数学的に算出され、事前に決定されている","Emotion is completely removed. When to trade and how much are all calculated mathematically and decided in advance."],[14,"買いたい時はもっと下がって欲しいと思う。この感情に折り合いをつけることは出来ない。だから全て排除するため長期クオンツを選択した","When I want to buy, I wish it would fall further. There is no making peace with that feeling. So I chose long-term quant to remove it all."]]],
+  [["失敗と戦略","Failure and strategy"],[[15,"仮説、検証、棄却。90%以上は棄却だ。それは失敗ではない。実行前に何度でも棄却しろ","Hypothesis, test, reject. Over 90% is rejected. That is not failure. Reject as many times as it takes before you execute."],[16,"間違いに気づいた時が、損切りの最良のタイミングだ","The moment you realize you are wrong is the best moment to cut the loss."],[17,"戦術にこだわりすぎて、戦略を見失う。戦略にこだわりすぎて、目的を見失う。目的にこだわりすぎて、環境の変化に気づかない","Obsess over tactics and you lose the strategy. Obsess over strategy and you lose the purpose. Obsess over purpose and you miss the change in the environment."],[18,"調子にのったら終わり。失敗のほとんどは後から振り返るとこれが原因だ","Get carried away and it's over. Looking back, that is the cause of most failures."],[19,"あの時買っておけばよかった。負ける人がよく言うセリフだ","\"I should have bought back then.\" A line losers often say."]]],
+  [["才能と覚悟","Talent and resolve"],[[20,"底で買って高く売るだけ。そのために途方もない時間を学習に費やした。それを苦労だと思わないのが才能だ","Just buy at the bottom and sell high. I spent an enormous amount of time learning to do it. Not calling that hardship is the talent."],[21,"失敗を糧として成長するは正しいが、生き残ることが前提条件だ","Growing from failure is right, but survival is the precondition."],[22,"確信とは、他人に貰うものではなく、自己完結するものだ。夜明け前が一番暗いは本当だ。確信がなければカウンターは打てない","Conviction is not given by others; it is self-contained. It really is darkest before dawn. Without conviction, you cannot counterpunch."],[23,"ここで買えるか買えないかで、力量がわかる。勝つ負けるではない。買えるか買えないかだ","Whether you can buy here shows your ability. Not whether you win or lose, but whether you can buy."]]],
+  [["個人投資家の優位性","The individual investor's edge"],[[24,"ヘッジファンドは静観することが許されない。個人投資家は全てが許される。それに気づき実行した時、プロが動けない場所が買い場になる","Hedge funds are not allowed to sit still. Individual investors are allowed everything. Realize that and act on it, and the places where pros cannot move become your buying opportunities."],[25,"儲かる年か、仕込む年か。その2つしかない","There are only two kinds of years: years to profit and years to build."],[26,"右往左往してはいけない。長期投資はクルーズ船の操舵だ。ボートレースをやっているわけではない","Don't dash back and forth. Long-term investing is steering a cruise ship, not running a boat race."]]],
+  [["テクノロジーの未来","The future of technology"],[[27,"テクノロジーの未来だけは、強く信じられる。誰が何と言おうと、揺らがない","The future of technology is the one thing I can believe in strongly. Whatever anyone says, it does not waver."],[28,"テクノロジーはいつも不安と懸念の種だが、いい意味でそれを裏切ってきた","Technology has always been a source of anxiety and worry, and it has always defied them, in a good way."]]],
+  [["幸福と投資","Happiness and investing"],[[29,"幸福であることが、投資をする上で最も重要な要素だ。丁寧な生活で、丁寧な投資を","Being happy is the most important factor in investing. A careful life, careful investing."],[30,"不幸とは何か。皆スラスラと答える。幸福とは何か。皆わからないと言う。数学的に言えば、幸福とは不幸でないことだ","What is unhappiness? Everyone answers easily. What is happiness? Everyone says they don't know. Mathematically, happiness is the absence of unhappiness."]]]];
+const W={};WORDS.forEach(([g,ws])=>ws.forEach(([n,ja,en])=>W[n]={n,t:[ja,en],g}));
 
-// 第五章 動けない理由：四幕と10のバイアス
+// 第五章 動けない理由：四幕と10のバイアス [ja name, ja text, en name, en text]
 const BIAS={
-  recency:["直近バイアス","人間の記憶は直近の出来事に引っ張られる。前回のVIXイベントから時間が経つと、あの恐怖は薄れる。待機金を削る。備えを緩める。しかしVIXイベントは3.05年に1回来る。記憶が薄れた頃に。"],
-  bandwagon:["バンドワゴン効果","皆が買っているから買う。乗り遅れることへの恐怖（FOMO）が、リスクの評価を上書きする。全員が同じ方向を向いている時、風船は最も危うい。"],
-  overconf:["過剰自信バイアス","「自分はパニックにならない」と思っている。備えの甘さを、根拠のない自信が補ってしまう。実際の局面では、誰もが初めてその恐怖を経験する。"],
-  planning:["計画の誤謬","「待機金は来月から積み立てよう」。その来月は来ない。備えには締め切りがない。だから永遠に先送りされる。「いつかやる」は「やらない」と同義だ。"],
-  normalcy:["正常性バイアス","脳は異常を異常と認識することを拒む。VIXが急騰し始めた時、最初の反応は「一時的な調整だ」。異常のサイズを過小評価する。その間に、針は深く刺さっていく。"],
-  confirm:["確証バイアス","「一時的だ」という記事だけを探す。正常性バイアスが「感じない」なら、確証バイアスは「見ない」だ。ポジションを持っていると、さらに強化される。"],
-  herd:["群衆心理","皆が売るから売る。第一幕のバンドワゴンが、真逆の方向に働く。売りが売りを呼ぶ。しかしVIXイベントの大底は、全員が売っている瞬間に形成される。"],
-  loss:["損失回避バイアス","損失の痛みは利益の喜びの2倍強い。高値で買った株が半値になっている。「これ以上損したくない」。だから底で買えない。"],
-  anchor:["アンカリング","一度見た安値が脳に刻まれる。戻り始めると「まだ安値より高い」と二番底を待つ。しかし二番底は来ない。下落の速度も記憶に刻まれる。"],
-  status:["現状維持バイアス","「何もしない」こと自体を安全と錯覚する。待機金を持ちながら動かないことは、備えではない。設計した戦略を、決定的な瞬間に放棄することだ。"]};
+  recency:["直近バイアス","人間の記憶は直近の出来事に引っ張られる。前回のVIXイベントから時間が経つと、あの恐怖は薄れる。待機金を削る。備えを緩める。しかしVIXイベントは3.05年に1回来る。記憶が薄れた頃に。","Recency bias","Memory is pulled toward recent events. As time passes since the last VIX event, the fear fades. You trim standby cash. You loosen your guard. But a VIX event comes once every 3.05 years, just when memory has faded."],
+  bandwagon:["バンドワゴン効果","皆が買っているから買う。乗り遅れることへの恐怖（FOMO）が、リスクの評価を上書きする。全員が同じ方向を向いている時、風船は最も危うい。","Bandwagon effect","Buying because everyone is buying. The fear of missing out overwrites the assessment of risk. When everyone faces the same way, the balloon is at its most fragile."],
+  overconf:["過剰自信バイアス","「自分はパニックにならない」と思っている。備えの甘さを、根拠のない自信が補ってしまう。実際の局面では、誰もが初めてその恐怖を経験する。","Overconfidence bias","You believe you won't panic. Unfounded confidence covers for weak preparation. In the real thing, everyone feels that fear for the first time."],
+  planning:["計画の誤謬","「待機金は来月から積み立てよう」。その来月は来ない。備えには締め切りがない。だから永遠に先送りされる。「いつかやる」は「やらない」と同義だ。","Planning fallacy","\"I'll start building standby cash next month.\" That month never comes. Preparation has no deadline, so it is postponed forever. \"Someday\" means \"never.\""],
+  normalcy:["正常性バイアス","脳は異常を異常と認識することを拒む。VIXが急騰し始めた時、最初の反応は「一時的な調整だ」。異常のサイズを過小評価する。その間に、針は深く刺さっていく。","Normalcy bias","The brain refuses to see the abnormal as abnormal. When VIX starts to spike, the first reaction is \"just a temporary correction.\" You underestimate its size, while the needle sinks deeper."],
+  confirm:["確証バイアス","「一時的だ」という記事だけを探す。正常性バイアスが「感じない」なら、確証バイアスは「見ない」だ。ポジションを持っていると、さらに強化される。","Confirmation bias","You look only for articles saying \"it's temporary.\" If normalcy bias is not feeling it, confirmation bias is not seeing it. Holding a position makes it stronger."],
+  herd:["群衆心理","皆が売るから売る。第一幕のバンドワゴンが、真逆の方向に働く。売りが売りを呼ぶ。しかしVIXイベントの大底は、全員が売っている瞬間に形成される。","Herd mentality","Selling because everyone is selling. The bandwagon of Act I runs in reverse. Selling begets selling. Yet the bottom of a VIX event forms at the very moment everyone is selling."],
+  loss:["損失回避バイアス","損失の痛みは利益の喜びの2倍強い。高値で買った株が半値になっている。「これ以上損したくない」。だから底で買えない。","Loss aversion","The pain of a loss is twice as strong as the joy of a gain. The stock you bought high is at half price. \"I don't want to lose any more.\" So you can't buy at the bottom."],
+  anchor:["アンカリング","一度見た安値が脳に刻まれる。戻り始めると「まだ安値より高い」と二番底を待つ。しかし二番底は来ない。下落の速度も記憶に刻まれる。","Anchoring","The low you saw is etched into your brain. As prices recover you think \"still above the low\" and wait for a second bottom. It never comes. The speed of the fall is etched in too."],
+  status:["現状維持バイアス","「何もしない」こと自体を安全と錯覚する。待機金を持ちながら動かないことは、備えではない。設計した戦略を、決定的な瞬間に放棄することだ。","Status quo bias","Mistaking doing nothing for safety. Holding standby cash and not moving is not preparation. It is abandoning your strategy at the decisive moment."]};
+const BN=b=>L(BIAS[b][0],BIAS[b][2]),BT=b=>L(BIAS[b][1],BIAS[b][3]);
+// [act, title, what happens, biases, short label]
 const ACTS=[
-  ["第一幕","平穏の中で","風船が膨らんでいる。しかし誰も気づかない",["recency","bandwagon","overconf","planning"],"平穏"],
-  ["第二幕","針が刺さった瞬間","VIXが急騰し始めた",["normalcy","confirm"],"針"],
-  ["第三幕","パニックの渦中","市場が崩壊していく",["herd"],"パニック"],
-  ["第四幕","底と反転","VIXが頂点に達した。株価が反転し始めた",["loss","anchor","status"],"底と反転"]];
+  [["第一幕","Act I"],["平穏の中で","In the calm"],["風船が膨らんでいる。しかし誰も気づかない","The balloon is inflating, but no one notices"],["recency","bandwagon","overconf","planning"],["平穏","Calm"]],
+  [["第二幕","Act II"],["針が刺さった瞬間","The needle strikes"],["VIXが急騰し始めた","VIX starts to spike"],["normalcy","confirm"],["針","Needle"]],
+  [["第三幕","Act III"],["パニックの渦中","In the panic"],["市場が崩壊していく","The market is collapsing"],["herd"],["パニック","Panic"]],
+  [["第四幕","Act IV"],["底と反転","Bottom and reversal"],["VIXが頂点に達した。株価が反転し始めた","VIX has peaked. Prices are starting to turn"],["loss","anchor","status"],["底と反転","Reversal"]]];
 
-// 『相場のアノマリーを斬る』 終章: all 38 claims (39 verdicts) with where they ended up; v: o ○, t △, x ×, n no verdict
+// 『相場のアノマリーを斬る』 終章: the 38 claims (39 verdicts); v: o ○, t △, x ×, n no verdict
+const F={keep:["残っている","Still there"],fade:["減った","Faded"],never:["初めから無かった","Never there"],rev:["減って、反転した","Faded, then reversed"],undec:["決められない","Undecided"],
+  pub:["公表されて消えた","Vanished after publication"],pubf:["公表されて減った","Faded after publication"],na:["測れない","Can't be measured"],same:["同上","Same as above"],wd:["反転したので取り下げ","Withdrawn: it reversed"],
+  aYE:["年末年始の7営業日の別名","Another name for the year-end 7 days"],aYE2:["同じ7営業日の別名","Another name for the same 7 days"],aSM:["9月と年末年始の別名","Another name for September and the year-end window"],
+  aS9:["甘い9か月の別名","Another name for the sweet 9 months"],aW6:["弱い6か月の別名","Another name for the weak 6 months"],aSep:["9月の別名","Another name for September"],aJan:["1月の別名","Another name for January"],aVal:["割安株の別名","Another name for value"]};
 const ANOMALY=[
-  ["序章　相場の外から来るもの",[["x","水星逆行中は下がる","初めから無かった"]]],
-  ["第一部　カレンダー",[["o","9月は悪い","残っている"],["t","11月は上がる","減った"],["x","夏枯れで8月は弱い","初めから無かった"],["x","1月のバロメーター","初めから無かった"],
-    ["n","年末は上がる","年末年始の7営業日の別名"],["n","1月効果","同じ7営業日の別名"],["t","月末月初は上がる","減った"],["t","月の前半は強い","減った"],
-    ["t","月曜は下がる","減って、反転した"],["t","金曜は上がる","減って、反転した"],["t","祝日の前は上がる","減った"],["t","サンタクロース・ラリー","減った"],
-    ["x","Sell in May","9月と年末年始の別名"],["x","SQの日は荒れる","初めから無かった"],["t","10月は荒れる","減った"]]],
-  ["第二部　政治と政策",[["n","3年目は最も強い","甘い9か月の別名"],["n","中間選挙の年は悪い","弱い6か月の別名"],["x","選挙の年は上がる","初めから無かった"],["x","選挙の翌年は弱い","初めから無かった"],
-    ["o","甘い9か月は強い","残っている"],["o","弱い6か月は弱い","残っている"],["n","安値から高値まで46.8%","測れない"],["t","民主党のほうが高い","決められない"],
-    ["o","FOMCの発表前は上がる（1994-2011）","公表されて消えた"],["x","FOMCの発表前は上がる（2016-2026）","同上"]]],
-  ["第三部　相場の外から",[["t","新月のころは上がる","決められない"],["x","秋は弱い","9月の別名"],["x","冬は強い","年末年始の7営業日の別名"],["x","旧NFL系が勝てば上がる","初めから無かった"]]],
-  ["第四部　大きさと安さと勢いと振れ方",[["t","小型株は高い","1月の別名"],["o","サイズ効果は1月に集中する","公表されて減った"],["t","割安株は高い","決められない"],
-    ["n","バリュー効果は1月に集中する","反転したので取り下げ"],["t","上がる株は上がり続ける","決められない"],["o","直前1か月は戻る","残っている"],
-    ["x","2年から5年前は戻る","割安株の別名"],["t","低ボラ株のほうが高い","決められない"],["o","低ボラ株はリスクに対して高い","残っている"]]]];
-// the verdict marks drawn as the same-sized shapes (the font's ○△× come out in different sizes)
+  [["序章　相場の外から来るもの","Prologue · From outside the market"],[["x",["水星逆行中は下がる","Stocks fall during Mercury retrograde"],"never"]]],
+  [["第一部　カレンダー","Part 1 · The calendar"],[["o",["9月は悪い","September is bad"],"keep"],["t",["11月は上がる","November rises"],"fade"],["x",["夏枯れで8月は弱い","August is weak (summer doldrums)"],"never"],["x",["1月のバロメーター","The January barometer"],"never"],
+    ["n",["年末は上がる","Year-end rises"],"aYE"],["n",["1月効果","The January effect"],"aYE2"],["t",["月末月初は上がる","The turn of the month rises"],"fade"],["t",["月の前半は強い","The first half of the month is strong"],"fade"],
+    ["t",["月曜は下がる","Mondays fall"],"rev"],["t",["金曜は上がる","Fridays rise"],"rev"],["t",["祝日の前は上がる","Pre-holiday days rise"],"fade"],["t",["サンタクロース・ラリー","The Santa Claus rally"],"fade"],
+    ["x",["Sell in May","Sell in May"],"aSM"],["x",["SQの日は荒れる","Triple witching days are volatile"],"never"],["t",["10月は荒れる","October is volatile"],"fade"]]],
+  [["第二部　政治と政策","Part 2 · Politics and policy"],[["n",["3年目は最も強い","Year 3 is the strongest"],"aS9"],["n",["中間選挙の年は悪い","The midterm year is bad"],"aW6"],["x",["選挙の年は上がる","Election years rise"],"never"],["x",["選挙の翌年は弱い","Post-election years are weak"],"never"],
+    ["o",["甘い9か月は強い","The sweet 9 months are strong"],"keep"],["o",["弱い6か月は弱い","The weak 6 months are weak"],"keep"],["n",["安値から高値まで46.8%","Midterm low to next-year high: 46.8%"],"na"],["t",["民主党のほうが高い","Returns are higher under Democrats"],"undec"],
+    ["o",["FOMCの発表前は上がる（1994-2011）","Stocks rise before FOMC (1994-2011)"],"pub"],["x",["FOMCの発表前は上がる（2016-2026）","Stocks rise before FOMC (2016-2026)"],"same"]]],
+  [["第三部　相場の外から","Part 3 · From outside the market"],[["t",["新月のころは上がる","Stocks rise around the new moon"],"undec"],["x",["秋は弱い","Autumn is weak"],"aSep"],["x",["冬は強い","Winter is strong"],"aYE"],["x",["旧NFL系が勝てば上がる","An old-NFL Super Bowl win means a rising year"],"never"]]],
+  [["第四部　大きさと安さと勢いと振れ方","Part 4 · Size, value, momentum and volatility"],[["t",["小型株は高い","Small caps beat large caps"],"aJan"],["o",["サイズ効果は1月に集中する","The size effect is concentrated in January"],"pubf"],["t",["割安株は高い","Value beats growth"],"undec"],
+    ["n",["バリュー効果は1月に集中する","The value effect is concentrated in January"],"wd"],["t",["上がる株は上がり続ける","Winners keep winning"],"undec"],["o",["直前1か月は戻る","Last month's losers bounce back"],"keep"],
+    ["x",["2年から5年前は戻る","Losers of 2 to 5 years ago bounce back"],"aVal"],["t",["低ボラ株のほうが高い","Low-volatility stocks return more"],"undec"],["o",["低ボラ株はリスクに対して高い","Low-volatility stocks return more per unit of risk"],"keep"]]]];
+// the verdict marks drawn as same-sized shapes (the font's ○△× come out in different sizes)
 const SHAPE={o:'<circle cx="8" cy="8" r="6"/>',t:'<path d="M8 2.2 14.2 13.4H1.8Z"/>',x:'<path d="M3 3 13 13M13 3 3 13"/>',n:'<path d="M2.5 8h11"/>'};
-const MARK={};for(const k in SHAPE)MARK[k]=`<svg class="mk" viewBox="0 0 16 16" width="15" height="15" aria-label="${{o:"○",t:"△",x:"×",n:"判定なし"}[k]}">${SHAPE[k]}</svg>`;
-const BOOKS={vix:["VIXの声を聴け","https://amzn.asia/d/0hrhh1Ny","icons/book-vix.jpg"],anomaly:["相場のアノマリーを斬る","https://amzn.asia/d/0boQWl0D","icons/book-anomaly.jpg"]};
-function renderBooks(){
-  document.querySelectorAll(".books").forEach(el=>{el.innerHTML=`<div class="ph"><h2>関連書籍</h2></div>`+el.dataset.books.split(",").map(k=>{const[b,url,cv]=BOOKS[k];
-    return `<a class="bk" href="${url}" target="_blank" rel="noopener"><img src="${cv}" alt="" width="44" height="64"><div><b>『${b}』</b><span>Amazon で見る</span></div><em>›</em></a>`}).join("")});
-}
-function renderAnomaly(){
-  const all=ANOMALY.flatMap(g=>g[1]),n=v=>all.filter(a=>a[0]===v).length;
-  $("anomaly").innerHTML=`<div class="ph"><h2>38の通説</h2><span class="asof">『相場のアノマリーを斬る』の判定</span></div>
-    <div class="tally"><span>${MARK.o}<b>${n("o")}</b></span><span>${MARK.t}<b>${n("t")}</b></span><span>${MARK.x}<b>${n("x")}</b></span><span>判定なし<b>${n("n")}</b></span></div>`+
-    ANOMALY.map(([g,xs])=>`<div class="grp">${g}</div>`+xs.map(([v,c,f])=>`<div class="an"><i class="v v${v}">${MARK[v]}</i><div><b>${c}</b><span>${f}</span></div></div>`).join("")).join("");
-}
-// the scenes the morning can fall into: [act index, name, what is happening, biases, words]
+const MARK={};for(const k in SHAPE)MARK[k]=`<svg class="mk" viewBox="0 0 16 16" width="15" height="15" aria-label="${{o:"○",t:"△",x:"×",n:"—"}[k]}">${SHAPE[k]}</svg>`;
+// books stay in Japanese; 『VIXの声を聴け』 has an English edition, so English readers get that one
+const BOOKS={vix:[["VIXの声を聴け","https://amzn.asia/d/0hrhh1Ny","icons/book-vix.jpg"],["Listen to VIX","https://amzn.asia/d/07rtXhVo","icons/book-vix-en.jpg"]],
+  anomaly:[["相場のアノマリーを斬る","https://amzn.asia/d/0boQWl0D","icons/book-anomaly.jpg"],["相場のアノマリーを斬る","https://amzn.asia/d/0boQWl0D","icons/book-anomaly.jpg"]]};
+const BK=k=>P(BOOKS[k]),bookName=k=>{const b=BK(k)[0];return /^[\x00-\x7F]+$/.test(b)?b:`『${b}』`};
+
+// the scenes the day can fall into: [act index, name, what is happening, biases, words]
 const SCENES={
-  calm:[0,"平穏","VIXは静かだ。静かな時間の方が圧倒的に長い。だからこそ人は忘れ、備えを怠る。待つことと、緩むことは違う。",["recency","planning"],[4,5,25,26,3,29,30,21,15,20]],
-  after:[0,"余震","前回のVIXイベントから1年以内。余震フェーズでは株価が戻り、人は「どうせ戻る」と学習する。その油断を、次の本震が回収する。",["recency","bandwagon"],[18,6,3,26,12,21]],
-  balloon:[0,"風船","風船が見えている。膨らんでいるという事実だけで、量を調整する理由になる。観察が行動を変える唯一の場面だ。",["bandwagon","overconf"],[7,9,10,18,17,6,8]],
-  needle:[1,"針","VIXが+1σを超えた。最初の反応は「一時的な調整だ」。異常を異常と認めない間に、針は深く刺さっていく。",["normalcy","confirm"],[12,16,13,3,6,1]],
-  panic:[2,"パニック","VIXイベント発生中。VIXが+2σを超えた。全員が売っている。その瞬間に大底は形成される。",["herd"],[1,2,11,24,13,7,27,28]],
-  rebound:[3,"コツン","5日LWMAが10日LWMAを下回った。恐怖の頂点は過ぎた。最後の壁は、自分の中にある。",["loss","anchor","status"],[22,23,19,8,14,2]],
-  quiet:[3,"静かな底","VIXイベントなしに MRI が BUY を示している。2022年のように、風船は針で割れずに萎むこともある。",["loss","anchor","status"],[23,19,22,25,8,5,27,28]]};
+  calm:[0,["平穏","Calm"],["VIXは静かだ。静かな時間の方が圧倒的に長い。だからこそ人は忘れ、備えを怠る。待つことと、緩むことは違う。","VIX is quiet. Quiet time is by far the longer part. That is exactly why people forget and neglect to prepare. Waiting and slackening are different."],["recency","planning"],[4,5,25,26,3,29,30,21,15,20]],
+  after:[0,["余震","Aftershocks"],["前回のVIXイベントから1年以内。余震フェーズでは株価が戻り、人は「どうせ戻る」と学習する。その油断を、次の本震が回収する。","Within a year of the last VIX event. In the aftershock phase prices recover and people learn \"it always comes back.\" The next main shock collects that complacency."],["recency","bandwagon"],[18,6,3,26,12,21]],
+  balloon:[0,["風船","Balloon"],["風船が見えている。膨らんでいるという事実だけで、量を調整する理由になる。観察が行動を変える唯一の場面だ。","The balloon is visible. That it is inflating is reason enough to adjust your size. This is the only moment when observation changes action."],["bandwagon","overconf"],[7,9,10,18,17,6,8]],
+  needle:[1,["針","Needle"],["VIXが+1σを超えた。最初の反応は「一時的な調整だ」。異常を異常と認めない間に、針は深く刺さっていく。","VIX has crossed +1σ. The first reaction is \"just a temporary correction.\" While you refuse to call it abnormal, the needle sinks deeper."],["normalcy","confirm"],[12,16,13,3,6,1]],
+  panic:[2,["パニック","Panic"],["VIXイベント発生中。VIXが+2σを超えた。全員が売っている。その瞬間に大底は形成される。","A VIX event is under way. VIX has crossed +2σ. Everyone is selling. That is the moment the bottom forms."],["herd"],[1,2,11,24,13,7,27,28]],
+  rebound:[3,["コツン","The knock"],["5日LWMAが10日LWMAを下回った。恐怖の頂点は過ぎた。最後の壁は、自分の中にある。","The 5-day LWMA has crossed under the 10-day. The peak of fear has passed. The last wall is inside you."],["loss","anchor","status"],[22,23,19,8,14,2]],
+  quiet:[3,["静かな底","Quiet bottom"],["VIXイベントなしに MRI が BUY を示している。2022年のように、風船は針で割れずに萎むこともある。","MRI is signaling BUY without a VIX event. As in 2022, a balloon can deflate without a needle."],["loss","anchor","status"],[23,19,22,25,8,5,27,28]]};
 
 const store={get:(k,d)=>{try{return localStorage.getItem("mind."+k)??d}catch(e){return d}},set:(k,v)=>{try{localStorage.setItem("mind."+k,v)}catch(e){}}};
 const state={tab:store.get("tab","today")};
-const fmtD=d=>`${Math.floor(d/10000)}年${Math.floor(d/100)%100}月${d%100}日`;
+const MON=["January","February","March","April","May","June","July","August","September","October","November","December"];
+const fmtD=d=>{const y=Math.floor(d/10000),m=Math.floor(d/100)%100,dd=d%100;return L(`${y}年${m}月${dd}日`,`${MON[m-1].slice(0,3)} ${dd}, ${y}`)};
 const toDate=d=>new Date(Math.floor(d/10000),Math.floor(d/100)%100-1,d%100);
 const monthsBetween=(a,b)=>(Math.floor(b/10000)-Math.floor(a/10000))*12+(Math.floor(b/100)%100-Math.floor(a/100)%100);
 
 async function load(){
-  const get=(f,t)=>fetch(DATA_BASE+f,{cache:"no-cache"}).then(r=>{if(!r.ok)throw new Error(f);return t?r.text():r.json()});
+  const get=f=>fetch(DATA_BASE+f,{cache:"no-cache"}).then(r=>{if(!r.ok)throw new Error(f);return r.json()});
   const [vix,daily,mri]=await Promise.all([get("vix.json"),get("vix_daily.json"),get("mri.json")]);
   const days=daily.high.map(x=>[x[0],x[1]]);
   // Cboe's history file can lag a few days; fill the gap with the daily VIX the MRI app keeps (a close, so a little under the high)
   const last=days[days.length-1][0];mri.daily.forEach(r=>{if(r[0]>last&&r[1])days.push([r[0],r[1],1])});
-  // ?d=YYYYMMDD replays a past morning (for checking the scenes against history)
+  // ?d=YYYYMMDD replays a past day (for checking the scenes against history)
   const asof=+new URLSearchParams(location.search).get("d");
   if(asof){const cut=x=>x[0]<=asof;return {vix,days:days.filter(cut),mri:{...mri,daily:mri.daily.filter(cut)}};}
   return {vix,days,mri};
@@ -270,56 +272,67 @@ function judge({vix,days,mri}){
   return {key,day,s,approx:!!days[i][2],sig,mriNow,last,cur,sinceLast:last?monthsBetween(last.start,day):null};
 }
 
-function dayIndex(d){return Math.floor(toDate(d).getTime()/864e5)}
+const dayIndex=d=>Math.floor(toDate(d).getTime()/864e5);
+const ph=(h,asof="")=>`<div class="ph"><h2>${h}</h2>${asof?`<span class="asof">${asof}</span>`:""}</div>`;
 // 今日の暦: the calendar claims from 『相場のアノマリーを斬る』 that fall on today's US session, with the book's verdict
 function renderKoyomi(n){
   const K=MindCalendar.today(n);
-  $("koyomi").innerHTML=`<div class="ph"><h2>今日の暦</h2><span class="asof">『相場のアノマリーを斬る』</span></div>`+
-    (K.trading?"":`<p class="kyu">米国市場は休場</p>`)+
-    (K.items.length?K.items.map(k=>`<div class="ky"><b class="v v${k.v}">${MARK[k.v]}</b><div><span>${k.when} · ${k.fate}</span><p>${k.claim}</p></div></div>`).join(""):`<p class="kyu">今日に当たる通説はない</p>`);
+  $("koyomi").innerHTML=ph(L("今日の暦","Today's calendar"),bookName("anomaly"))+
+    (K.trading?"":`<p class="kyu">${L("米国市場は休場","US market closed")}</p>`)+
+    (K.items.length?K.items.map(k=>`<div class="ky"><b class="v v${k.v}">${MARK[k.v]}</b><div><span>${P(k.when)} · ${P(k.fate)}</span><p>${P(k.claim)}</p></div></div>`).join(""):`<p class="kyu">${L("今日に当たる通説はない","No claims fall on today")}</p>`);
 }
-function render(J){
-  const S=SCENES[J.key],[ai,name,desc,biases,words]=S,act=ACTS[ai];
+function renderToday(J){
   const now=new Date(),dt=new Date(now.getFullYear(),now.getMonth(),now.getDate()),tn=dt.getFullYear()*10000+(dt.getMonth()+1)*100+dt.getDate();
+  const wk=L("日月火水木金土"[dt.getDay()]+"曜日",["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"][dt.getDay()]);
+  $("date").innerHTML=LANG==="en"?`<b>${MON[dt.getMonth()]} ${dt.getDate()}</b><span>${wk}　${dt.getFullYear()}</span>`
+    :`<b>${dt.getMonth()+1}<i>月</i>${dt.getDate()}<i>日</i></b><span>${dt.getFullYear()}年　${wk}</span>`;
   renderKoyomi(tn);
-  $("date").innerHTML=`<b>${dt.getMonth()+1}<i>月</i>${dt.getDate()}<i>日</i></b><span>${dt.getFullYear()}年　${"日月火水木金土"[dt.getDay()]}曜日</span>`;
-  const s=J.s,sigTxt=[J.sig.tbub?`バブル Lv.${J.sig.tbub}`:"",J.sig.sell?`SELL ${[0,80,85,90][J.sig.sell]}`:"",J.sig.buy?`BUY ${[0,7.5,5,2.5][J.sig.buy]}`:""].filter(Boolean);
-  $("scene").innerHTML=`<div class="ph"><h2>今の局面</h2><span class="asof">第五章「動けない理由」</span></div>
-    <div class="acts">${ACTS.map((a,j)=>`<div class="${j===ai?"on":""}"><b>${a[0]}</b>${a[4]}</div>`).join("")}</div>
-    <div class="scene"><small>${act[0]}　${act[1]}</small>${name}</div>
-    <p class="sdesc">${desc}</p>
+  if(!J)return;
+  const [ai,name,desc,biases,words]=SCENES[J.key],act=ACTS[ai],s=J.s;
+  const sigTxt=[J.sig.tbub?`${L("バブル","Bubble")} Lv.${J.sig.tbub}`:"",J.sig.sell?`SELL ${[0,80,85,90][J.sig.sell]}`:"",J.sig.buy?`BUY ${[0,7.5,5,2.5][J.sig.buy]}`:""].filter(Boolean);
+  $("scene").innerHTML=ph(L("今の局面","Where we are"),L("第五章「動けない理由」","Ch. 5 · Why we can't move"))+
+    `<div class="acts">${ACTS.map((a,j)=>`<div class="${j===ai?"on":""}"><b>${P(a[0])}</b>${P(a[4])}</div>`).join("")}</div>
+    <div class="scene"><small>${P(act[0])}　${P(act[1])}</small>${P(name)}</div>
+    <p class="sdesc">${P(desc)}</p>
     <div class="kv">
-      <div><span>${J.approx?"VIX":"VIX 日足高値"}</span><b>${s.high.toFixed(2)}</b><small>+1σ ${s.s1.toFixed(1)}</small><small>+2σ ${s.s2.toFixed(1)}</small></div>
-      <div><span>MRI</span><b>${(J.mriNow*100).toFixed(1)}</b>${sigTxt.length?sigTxt.map(x=>`<small>${x}</small>`).join(""):"<small>シグナルなし</small>"}</div>
-      <div><span>VIXイベント</span><b>${J.cur?"発生中":J.sinceLast+"<small style='display:inline'> ヶ月前</small>"}</b><small>${J.cur?fmtD(J.cur.start)+"〜":J.last?fmtD(J.last.start):""}</small></div>
+      <div><span>${J.approx?"VIX":L("VIX 日足高値","VIX daily high")}</span><b>${s.high.toFixed(2)}</b><small>+1σ ${s.s1.toFixed(1)}</small><small>+2σ ${s.s2.toFixed(1)}</small></div>
+      <div><span>MRI</span><b>${(J.mriNow*100).toFixed(1)}</b>${sigTxt.length?sigTxt.map(x=>`<small>${x}</small>`).join(""):`<small>${L("シグナルなし","No signal")}</small>`}</div>
+      <div><span>${L("VIXイベント","VIX event")}</span><b>${J.cur?L("発生中","Under way"):J.sinceLast+`<small style='display:inline'>${L(" ヶ月前"," mo ago")}</small>`}</b><small>${J.cur?fmtD(J.cur.start)+"〜":J.last?fmtD(J.last.start):""}</small></div>
     </div>`;
-  // the word of the day turns over each day among the scene's words
-  const di=dayIndex(J.day),main=W[words[di%words.length]];
-  $("word").innerHTML=`<div class="ph"><h2>今日の言葉</h2><span class="asof">第四章「30の言葉」</span></div>
-    <p class="word">${main.t}</p><div class="wmeta"><b>${main.n}</b>　${main.g}</div>`;
-  // one bias a day, turning over among the scene's biases
-  const b=biases[di%biases.length];
-  $("bias").innerHTML=`<div class="ph"><h2>気をつけるバイアス</h2><span class="asof">${act[0]}</span></div>
-    <div class="bias"><h3>${BIAS[b][0]}</h3><p>${BIAS[b][1]}</p></div>`;
-  renderRef(words,biases,ai);
+  // the word and the bias of the day turn over each day among the scene's own
+  const di=dayIndex(J.day),main=W[words[di%words.length]],b=biases[di%biases.length];
+  $("word").innerHTML=ph(L("今日の言葉","Word of the day"),L("第四章「30の言葉」","Ch. 4 · 30 words"))+
+    `<p class="word">${L("「","“")}${P(main.t)}${L("」","”")}</p><div class="wmeta"><b>${main.n}</b>　${P(main.g)}</div>`;
+  $("bias").innerHTML=ph(L("気をつけるバイアス","Bias to watch"),P(act[0]))+`<div class="bias"><h3>${BN(b)}</h3><p>${BT(b)}</p></div>`;
 }
-function renderRef(words=[],biases=[],ai=-1){
-  $("words").innerHTML=`<div class="ph"><h2>30の言葉</h2></div>`+
-    WORDS.map(([g,ws])=>`<div class="grp">${g}</div>`+ws.map(([n,t])=>`<p><i>${n}</i>${t}</p>`).join("")).join("");
-  $("acts").innerHTML=`<div class="ph"><h2>四幕と10のバイアス</h2></div>`+
-    ACTS.map((a,j)=>`<div class="act"><h3>${a[0]}　${a[1]}<small>${a[2]}</small></h3>${a[3].map(b=>`<div class="bias"><h3>${BIAS[b][0]}</h3><p>${BIAS[b][1]}</p></div>`).join("")}</div>`).join("");
+function renderRef(){
+  $("words").innerHTML=ph(L("30の言葉","30 words"))+
+    WORDS.map(([g,ws])=>`<div class="grp">${P(g)}</div>`+ws.map(([n,ja,en])=>`<p><i>No. ${n}</i>${L(ja,en)}</p>`).join("")).join("");
+  $("acts").innerHTML=ph(L("四幕と10のバイアス","Four acts, ten biases"))+
+    ACTS.map(a=>`<div class="act"><h3>${P(a[0])}　${P(a[1])}<small>${P(a[2])}</small></h3>${a[3].map(b=>`<div class="bias"><h3>${BN(b)}</h3><p>${BT(b)}</p></div>`).join("")}</div>`).join("");
+  const all=ANOMALY.flatMap(g=>g[1]),cnt=v=>all.filter(a=>a[0]===v).length;
+  $("anomaly").innerHTML=ph(L("38の通説","38 claims"),bookName("anomaly"))+
+    `<div class="tally"><span>${MARK.o}<b>${cnt("o")}</b></span><span>${MARK.t}<b>${cnt("t")}</b></span><span>${MARK.x}<b>${cnt("x")}</b></span><span>${L("判定なし","No verdict")}<b>${cnt("n")}</b></span></div>`+
+    ANOMALY.map(([g,xs])=>`<div class="grp">${P(g)}</div>`+xs.map(([v,c,f])=>`<div class="an"><i class="v v${v}">${MARK[v]}</i><div><b>${P(c)}</b><span>${P(F[f])}</span></div></div>`).join("")).join("");
+  document.querySelectorAll(".books").forEach(el=>{el.innerHTML=ph(L("関連書籍","Related books"))+el.dataset.books.split(",").map(k=>{const[,url,cv]=BK(k);
+    return `<a class="bk" href="${url}" target="_blank" rel="noopener"><img src="${cv}" alt="" width="44" height="64"><div><b>${bookName(k)}</b><span>${L("Amazon で見る","View on Amazon")}</span></div><em>›</em></a>`}).join("")});
 }
-
+const TABS={today:["今日","Today"],words:["言葉","Words"],biases:["バイアス","Biases"],anomaly:["アノマリー","Anomalies"]};
 function renderTabs(){
-  document.querySelectorAll("#tabs button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.tab===state.tab));
-  ["today","words","biases","anomaly"].forEach(k=>$("t-"+k).hidden=state.tab!==k);
+  document.querySelectorAll("#tabs button").forEach(b=>{b.textContent=P(TABS[b.dataset.tab]);b.setAttribute("aria-pressed",b.dataset.tab===state.tab)});
+  Object.keys(TABS).forEach(k=>$("t-"+k).hidden=state.tab!==k);
+}
+let JUDGED=null,FAILED=false;
+function renderAll(){
+  document.documentElement.lang=LANG;
+  document.querySelectorAll("#lang [data-lang]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.lang===LANG));
+  renderTabs();renderRef();renderToday(JUDGED);
+  if(!JUDGED)$("scene").innerHTML=`<div class="empty">${FAILED?L("データを読み込めませんでした","Couldn't load the data"):L("読み込み中…","Loading…")}</div>`;
 }
 $("tabs").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;state.tab=b.dataset.tab;store.set("tab",state.tab);renderTabs();window.scrollTo(0,0)});
-renderTabs();
-renderRef();
-renderAnomaly();
-renderBooks();
-load().then(D=>render(judge(D))).catch(e=>{$("scene").innerHTML=`<div class="empty">データを読み込めませんでした</div>`;console.error(e)});
+$("lang").addEventListener("click",e=>{const b=e.target.closest("[data-lang]");if(!b||b.dataset.lang===LANG)return;LANG=b.dataset.lang;try{localStorage.setItem("lang",LANG)}catch(e){}renderAll()});
+renderAll();
+load().then(D=>{JUDGED=judge(D);renderAll()}).catch(e=>{FAILED=true;renderAll();console.error(e)});
 if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});
 </script>
 </body>
