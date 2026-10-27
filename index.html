@@ -47,9 +47,10 @@ h1{margin:0;font-size:21px;font-weight:800;letter-spacing:.04em;line-height:1.15
 .date b i{font-style:normal;font-family:var(--f-body);font-size:24px;font-weight:800;margin:0 4px 0 2px}
 .date span{display:block;margin-top:8px;font-size:13px;color:var(--muted);letter-spacing:.08em}
 .panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-top:10px}
-.ph{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin:2px 0 10px}
+.ph{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:2px 8px;margin:2px 0 10px}
+.ph .asof{margin-left:auto}
 .ph h2{white-space:nowrap;margin:0;font-size:17px;font-weight:800;letter-spacing:.04em;color:var(--ink)}
-.ph .asof{font-size:12px;color:var(--muted)}
+.ph .asof{white-space:nowrap;font-size:12px;color:var(--muted)}
 .empty{padding:40px 0;text-align:center;color:var(--muted)}
 /* the four acts */
 .acts{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin:2px 0 12px}
@@ -153,7 +154,7 @@ h1{margin:0;font-size:21px;font-weight:800;letter-spacing:.04em;line-height:1.15
 <script src="engine.js"></script>
 <script src="calendar.js"></script>
 <script>
-const APP_VER="mind-v16";
+const APP_VER="mind-v17";
 const $=id=>document.getElementById(id);
 const DATA_BASE="/mri-app/data/";
 // language: shared with the other apps on this site ("lang" in localStorage)
@@ -274,7 +275,8 @@ function judge({vix,days,mri}){
 }
 
 // the verdicts come from the final chapter of 『相場のアノマリーを斬る』; cited by chapter like the other panels
-const FINAL=()=>L("終章「4つでは足りなかった」","Final ch. · Four weren't enough");
+const FINAL=()=>`${bookName("anomaly")}${L("終章"," · Final ch.")}`;
+const VIXCH=n=>`${bookName("vix")}${L(`第${"〇一二三四五"[n]}章`,` · Ch. ${n}`)}`;
 const jstTime=iso=>{const t=new Date(Date.parse(iso)+9*36e5);return `${t.getUTCMonth()+1}/${t.getUTCDate()} ${t.getUTCHours()}:${String(t.getUTCMinutes()).padStart(2,"0")}`};
 const dayIndex=d=>Math.floor(toDate(d).getTime()/864e5);
 const ph=(h,asof="")=>`<div class="ph"><h2>${h}</h2>${asof?`<span class="asof">${asof}</span>`:""}</div>`;
@@ -297,7 +299,7 @@ function renderToday(J){
   if(!J)return;
   const [ai,name,desc,biases,words]=SCENES[J.key],act=ACTS[ai],s=J.s;
   const sigTxt=[J.sig.tbub?`${L("バブル","Bubble")} Lv.${J.sig.tbub}`:"",J.sig.sell?`SELL ${[0,80,85,90][J.sig.sell]}`:"",J.sig.buy?`BUY ${[0,7.5,5,2.5][J.sig.buy]}`:""].filter(Boolean);
-  $("scene").innerHTML=ph(L("今の局面","Where we are"),L("第五章「動けない理由」","Ch. 5 · Why we can't move"))+
+  $("scene").innerHTML=ph(L("今の局面","Where we are"),VIXCH(5))+
     `<div class="acts">${ACTS.map((a,j)=>`<div class="${j===ai?"on":""}"><b>${P(a[0])}</b>${P(a[4])}</div>`).join("")}</div>
     <div class="scene"><small>${P(act[0])}　${P(act[1])}</small>${P(name)}</div>
     <p class="sdesc">${P(desc)}</p>
@@ -308,14 +310,14 @@ function renderToday(J){
     </div>${J.asof?`<p class="asofl">${L("データ","Data")} ${jstTime(J.asof)}${L("（日本時間）"," JST")}</p>`:""}`;
   // the word and the bias of the day turn over with the date (7:00 Japan time), among the scene's own
   const di=dayIndex(tn),main=W[words[di%words.length]],b=biases[di%biases.length];
-  $("word").innerHTML=ph(L("今日の言葉","Word of the day"),L("第四章「30の言葉」","Ch. 4 · 30 words"))+
+  $("word").innerHTML=ph(L("今日の言葉","Word of the day"),VIXCH(4))+
     `<p class="word">${L("「","“")}${P(main.t)}${L("」","”")}</p><div class="wmeta"><b>${main.n}</b>　${P(main.g)}</div>`;
-  $("bias").innerHTML=ph(L("気をつけるバイアス","Bias to watch"),P(act[0]))+`<div class="bias"><h3>${BN(b)}</h3><p>${BT(b)}</p></div>`;
+  $("bias").innerHTML=ph(L("気をつけるバイアス","Bias to watch"),VIXCH(5))+`<div class="bias"><h3>${BN(b)}</h3><p>${BT(b)}</p></div>`;
 }
 function renderRef(){
-  $("words").innerHTML=ph(L("30の言葉","30 words"))+
+  $("words").innerHTML=ph(L("30の言葉","30 words"),VIXCH(4))+
     WORDS.map(([g,ws])=>`<div class="grp">${P(g)}</div>`+ws.map(([n,ja,en])=>`<p><i>No. ${n}</i>${L(ja,en)}</p>`).join("")).join("");
-  $("acts").innerHTML=ph(L("四幕と10のバイアス","Four acts, ten biases"))+
+  $("acts").innerHTML=ph(L("四幕と10のバイアス","Four acts, ten biases"),VIXCH(5))+
     ACTS.map(a=>`<div class="act"><h3>${P(a[0])}　${P(a[1])}<small>${P(a[2])}</small></h3>${a[3].map(b=>`<div class="bias"><h3>${BN(b)}</h3><p>${BT(b)}</p></div>`).join("")}</div>`).join("");
   const all=ANOMALY.flatMap(g=>g[1]),cnt=v=>all.filter(a=>a[0]===v).length;
   $("anomaly").innerHTML=ph(L("38の通説","38 claims"),FINAL())+
