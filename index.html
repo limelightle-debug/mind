@@ -82,6 +82,14 @@ h1{margin:0;font-size:21px;font-weight:800;letter-spacing:.04em;line-height:1.15
 .bias h3{margin:0 0 3px;font-size:15.5px;font-weight:800}
 .bias h3 i{font-style:normal;font-size:10.5px;font-weight:700;color:var(--muted);margin-left:6px;letter-spacing:.04em}
 .bias p{margin:0;font-size:13.5px;line-height:1.7;color:var(--ink2)}
+.ky{display:flex;gap:12px;align-items:flex-start;padding:9px 0;border-top:1px solid var(--line)}
+.ph+.ky,.kyu+.ky{border-top:0;padding-top:2px}
+.ky .v{flex:none;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-family:"Hiragino Sans",var(--f-body);font-size:17px;font-weight:700;line-height:1;margin-top:6px}
+.ky .vo{color:var(--ink)}.ky .vt{color:var(--ink2)}.ky .vx{color:var(--muted)}
+.ky span{display:block;font-size:11.5px;color:var(--muted)}
+.ky p{margin:1px 0 0;font-size:14.5px;font-weight:700;line-height:1.5}
+.ky p i{font-style:normal;font-weight:400;font-size:12px;color:var(--muted);margin-left:8px}
+.kyu{margin:0 0 6px;font-size:13px;color:var(--muted)}
 .cure{margin-top:10px;padding:10px 12px;border-radius:10px;background:#0d0d22;border:1px solid var(--line);font-size:13px;line-height:1.7;color:var(--ink2)}
 /* reference lists */
 .grp{margin:14px 0 4px;font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.06em}
@@ -119,6 +127,7 @@ h1{margin:0;font-size:21px;font-weight:800;letter-spacing:.04em;line-height:1.15
       <section class="panel" id="scene"><div class="empty">読み込み中…</div></section>
       <section class="panel" id="word"></section>
       <section class="panel" id="bias"></section>
+      <section class="panel" id="koyomi"></section>
     </div>
     <div id="t-words" hidden><section class="panel ref" id="words"></section></div>
     <div id="t-biases" hidden><section class="panel" id="acts"></section></div>
@@ -126,8 +135,9 @@ h1{margin:0;font-size:21px;font-weight:800;letter-spacing:.04em;line-height:1.15
   <div class="foot">『VIXの声を聴け』第二部「心」より · 恐怖指数研究所 Gold Locks</div>
 </div>
 <script src="engine.js"></script>
+<script src="calendar.js"></script>
 <script>
-const APP_VER="mind-v6";
+const APP_VER="mind-v7";
 const $=id=>document.getElementById(id);
 const DATA_BASE="/mri-app/data/";
 
@@ -215,9 +225,17 @@ function judge({vix,days,mri}){
 }
 
 function dayIndex(d){return Math.floor(toDate(d).getTime()/864e5)}
+// 今日の暦: the calendar claims from 『相場のアノマリーを斬る』 that fall on today's US session, with the book's verdict
+function renderKoyomi(n){
+  const K=MindCalendar.today(n);
+  $("koyomi").innerHTML=`<div class="ph"><h2>今日の暦</h2><span class="asof">『相場のアノマリーを斬る』</span></div>`+
+    (K.trading?"":`<p class="kyu">米国市場は休場</p>`)+
+    (K.items.length?K.items.map(k=>`<div class="ky"><b class="v v${k.v}">${MindCalendar.V[k.v]}</b><div><span>${k.when}</span><p>${k.claim}<i>${k.fate}</i></p></div></div>`).join(""):`<p class="kyu">今日に当たる通説はない</p>`);
+}
 function render(J){
   const S=SCENES[J.key],[ai,name,desc,biases,words]=S,act=ACTS[ai];
-  const dt=toDate(J.day);
+  const now=new Date(),dt=new Date(now.getFullYear(),now.getMonth(),now.getDate()),tn=dt.getFullYear()*10000+(dt.getMonth()+1)*100+dt.getDate();
+  renderKoyomi(tn);
   $("date").innerHTML=`<b>${dt.getMonth()+1}<i>月</i>${dt.getDate()}<i>日</i></b><span>${dt.getFullYear()}年　${"日月火水木金土"[dt.getDay()]}曜日</span>`;
   const s=J.s,sigTxt=[J.sig.tbub?`バブル Lv.${J.sig.tbub}`:"",J.sig.sell?`SELL ${[0,80,85,90][J.sig.sell]}`:"",J.sig.buy?`BUY ${[0,7.5,5,2.5][J.sig.buy]}`:""].filter(Boolean);
   $("scene").innerHTML=`<div class="ph"><h2>今朝の局面</h2><span class="asof">第五章「動けない理由」</span></div>
