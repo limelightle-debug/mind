@@ -143,10 +143,10 @@ h1{margin:0;font-size:21px;font-weight:800;letter-spacing:.04em;line-height:1.15
       <section class="panel" id="word"></section>
       <section class="panel" id="bias"></section>
       <section class="panel" id="koyomi"></section>
-      <section class="panel books" data-books="vix,shippai,anomaly"></section>
+      <section class="panel books" data-books="vix,shippai,heiho,anomaly"></section>
     </div>
-    <div id="t-words" hidden><section class="panel ref" id="words"></section><section class="panel books" data-books="vix,shippai"></section></div>
-    <div id="t-biases" hidden><section class="panel" id="acts"></section><section class="panel books" data-books="vix,shippai"></section></div>
+    <div id="t-words" hidden><section class="panel ref" id="words"></section><section class="panel books" data-books="vix,shippai,heiho"></section></div>
+    <div id="t-biases" hidden><section class="panel" id="acts"></section><section class="panel books" data-books="vix,shippai,heiho"></section></div>
     <div id="t-anomaly" hidden><section class="panel" id="anomaly"></section><section class="panel books" data-books="anomaly"></section></div>
   </main>
   <div class="foot">© 恐怖指数研究所 Gold Locks</div>
@@ -154,7 +154,7 @@ h1{margin:0;font-size:21px;font-weight:800;letter-spacing:.04em;line-height:1.15
 <script src="engine.js"></script>
 <script src="calendar.js"></script>
 <script>
-const APP_VER="mind-v19";
+const APP_VER="mind-v20";
 const $=id=>document.getElementById(id);
 const DATA_BASE="/mri-app/data/";
 // language: shared with the other apps on this site ("lang" in localStorage)
@@ -219,6 +219,7 @@ const MARK={};for(const k in SHAPE)MARK[k]=`<svg class="mk" viewBox="0 0 16 16" 
 // books stay in Japanese; 『VIXの声を聴け』 has an English edition, so English readers get that one
 const BOOKS={vix:[["VIXの声を聴け","https://amzn.asia/d/0hrhh1Ny","icons/book-vix.jpg"],["Listen to VIX","https://amzn.asia/d/07rtXhVo","icons/book-vix-en.jpg"]],
   shippai:[["失敗の魔術師","https://amzn.asia/d/0hWKU73R","icons/book-shippai.jpg"],["失敗の魔術師","https://amzn.asia/d/0hWKU73R","icons/book-shippai.jpg"]],
+  heiho:[["兵法に学べ","https://amzn.asia/d/02BQOi5d","icons/book-heiho.jpg"],["兵法に学べ","https://amzn.asia/d/02BQOi5d","icons/book-heiho.jpg"]],
   anomaly:[["相場のアノマリーを斬る","https://amzn.asia/d/0boQWl0D","icons/book-anomaly.jpg"],["相場のアノマリーを斬る","https://amzn.asia/d/0boQWl0D","icons/book-anomaly.jpg"]]};
 const BK=k=>P(BOOKS[k]),bookName=k=>{const b=BK(k)[0];return /^[\x00-\x7F]+$/.test(b)?b:`『${b}』`};
 
