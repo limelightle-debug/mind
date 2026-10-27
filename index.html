@@ -78,6 +78,7 @@ h1{margin:0;font-size:21px;font-weight:800;letter-spacing:.04em;line-height:1.15
 /* biases */
 .bias{padding:10px 0;border-top:1px solid var(--line)}
 .bias:first-of-type{border-top:0;padding-top:2px}
+.ph+.bias{border-top:0;padding-top:2px}
 .bias h3{margin:0 0 3px;font-size:15.5px;font-weight:800}
 .bias h3 i{font-style:normal;font-size:10.5px;font-weight:700;color:var(--muted);margin-left:6px;letter-spacing:.04em}
 .bias p{margin:0;font-size:13.5px;line-height:1.7;color:var(--ink2)}
@@ -125,7 +126,7 @@ h1{margin:0;font-size:21px;font-weight:800;letter-spacing:.04em;line-height:1.15
 </div>
 <script src="engine.js"></script>
 <script>
-const APP_VER="mind-v4";
+const APP_VER="mind-v5";
 const $=id=>document.getElementById(id);
 const DATA_BASE="/mri-app/data/";
 
@@ -228,13 +229,13 @@ function render(J){
       <div><span>VIXイベント</span><b>${J.cur?"発生中":J.sinceLast+"<small style='display:inline'> ヶ月前</small>"}</b><small>${J.cur?fmtD(J.cur.start)+"〜":J.last?fmtD(J.last.start):""}</small></div>
     </div>`;
   // the word of the day turns over each day among the scene's words
-  const di=dayIndex(J.day),main=W[words[di%words.length]],rest=words.filter(n=>n!==main.n).slice(0,3).map(n=>W[n]);
+  const di=dayIndex(J.day),main=W[words[di%words.length]];
   $("word").innerHTML=`<div class="ph"><h2>今日の言葉</h2><span class="asof">第四章「30の言葉」</span></div>
-    <p class="word">${main.t}</p><div class="wmeta"><b>${main.n}</b>　${main.g}</div>
-    <div class="more">${rest.map(w=>`<p><i>${w.n}</i>${w.t}</p>`).join("")}</div>`;
-  $("bias").innerHTML=`<div class="ph"><h2>気をつけるバイアス</h2><span class="asof">${act[0]}</span></div>`+
-    biases.map(b=>`<div class="bias"><h3>${BIAS[b][0]}</h3><p>${BIAS[b][1]}</p></div>`).join("")+
-    `<div class="cure">バイアスを知っても、バイアスは消えない。働く瞬間を事前に特定し、その瞬間に感情ではなく数字に従う仕組みを、恐怖が来る前に作っておく。</div>`;
+    <p class="word">${main.t}</p><div class="wmeta"><b>${main.n}</b>　${main.g}</div>`;
+  // one bias a day, turning over among the scene's biases
+  const b=biases[di%biases.length];
+  $("bias").innerHTML=`<div class="ph"><h2>気をつけるバイアス</h2><span class="asof">${act[0]}</span></div>
+    <div class="bias"><h3>${BIAS[b][0]}</h3><p>${BIAS[b][1]}</p></div>`;
   renderRef(words,biases,ai);
 }
 function renderRef(words=[],biases=[],ai=-1){
