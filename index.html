@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Mind</title>
+<meta name="description" content="恐怖指数研究所 Mind：毎朝の相場の局面と、今大切な言葉、陥りやすいバイアス">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Mind">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0a0a1a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=LINE+Seed+JP:wght@400;700;800&family=Shippori+Mincho:wght@600;800&display=swap">
+<style>
+:root{
+  /* the same navy palette as the other apps */
+  --bg:#0a0a1a; --panel:#111127; --ink:#f2f2f7; --ink2:#c4c4d4; --muted:#8a8aa6; --line:#2a2a4a; --chip:#1a1a36; --accent:#7fa8ff;
+  --red:#ca2323; --up:#4CAF50; --dn:#F44336; --amber:#FF9800;
+  --f-tick:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --f-body:"LINE Seed JP","Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",system-ui,sans-serif;
+  --f-min:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
+.wrap{max-width:720px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-top:env(safe-area-inset-top,0px);padding-bottom:calc(40px + env(safe-area-inset-bottom,0px))}
+[hidden]{display:none!important}
+a{color:inherit}
+.num{font-family:var(--f-tick);font-stretch:82%;font-variant-numeric:tabular-nums}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:1px solid var(--line);padding:12px 0 8px}
+.brand{display:flex;align-items:center;gap:10px}
+.avatar{width:44px;height:44px;border-radius:10px;flex:none;box-shadow:0 0 0 1px var(--line)}
+h1{margin:0;font-size:21px;font-weight:800;letter-spacing:.04em;line-height:1.15}
+.ed{font-size:12px;color:var(--muted);margin-top:2px}
+.seg{display:flex;background:var(--chip);border-radius:8px;padding:3px;gap:2px;margin-top:10px}
+.seg button{flex:1;appearance:none;border:0;background:transparent;color:var(--ink2);font:500 13.5px/1 var(--f-body);padding:9px 6px;border-radius:6px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--panel);color:var(--ink);box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.9),0 1px 2px rgba(0,0,0,.4);font-weight:700}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-top:10px}
+.ph{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 8px}
+.ph h2{margin:0;font-size:13px;font-weight:700;letter-spacing:.04em;color:var(--ink2)}
+.ph .asof{font-size:11.5px;color:var(--muted)}
+.empty{padding:40px 0;text-align:center;color:var(--muted)}
+/* the four acts */
+.acts{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin:2px 0 12px}
+.acts div{position:relative;text-align:center;padding:6px 2px 5px;border-radius:8px;background:#0d0d22;border:1px solid var(--line);color:var(--muted);font-size:10.5px;line-height:1.3}
+.acts div b{display:block;font-size:11px;color:var(--ink2);font-weight:700}
+.acts div.on{background:var(--red);border-color:var(--red);color:#fff}
+.acts div.on b{color:#fff}
+.scene{font-size:22px;font-weight:800;letter-spacing:.04em;line-height:1.25}
+.scene small{display:block;font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.06em;margin-bottom:2px}
+.sdesc{margin:6px 0 0;color:var(--ink2);font-size:13.5px;line-height:1.65}
+.kv{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.kv div{background:#0d0d22;border:1px solid var(--line);border-radius:10px;padding:8px 10px;min-width:0}
+.kv span{display:block;font-size:10.5px;color:var(--muted);white-space:nowrap}
+.kv b{display:block;font-family:var(--f-tick);font-stretch:82%;font-weight:700;font-size:20px;line-height:1.15;font-variant-numeric:tabular-nums;white-space:nowrap}
+.kv small{display:block;font-family:var(--f-tick);font-stretch:82%;font-size:11.5px;color:var(--ink2);white-space:nowrap}
+.kv b.j{font-family:var(--f-body);font-stretch:100%;font-size:15px;line-height:1.55}
+/* the word */
+.word{margin:4px 0 2px;font-family:var(--f-min);font-weight:800;font-size:20px;line-height:1.75;letter-spacing:.02em}
+.word::before{content:"「"}.word::after{content:"」"}
+.wmeta{font-size:11.5px;color:var(--muted)}
+.wmeta b{font-family:var(--f-tick);font-stretch:82%;color:var(--ink2)}
+.more{margin-top:12px;border-top:1px solid var(--line)}
+.more p{margin:0;padding:9px 0;border-bottom:1px solid var(--line);font-family:var(--f-min);font-weight:600;font-size:14.5px;line-height:1.7;color:var(--ink2)}
+.more p:last-child{border-bottom:0;padding-bottom:0}
+.more p i{font-style:normal;font-family:var(--f-tick);font-stretch:82%;font-size:11px;color:var(--muted);margin-right:6px}
+/* biases */
+.bias{padding:10px 0;border-top:1px solid var(--line)}
+.bias:first-of-type{border-top:0;padding-top:2px}
+.bias h3{margin:0 0 3px;font-size:15.5px;font-weight:800}
+.bias h3 i{font-style:normal;font-size:10.5px;font-weight:700;color:var(--muted);margin-left:6px;letter-spacing:.04em}
+.bias p{margin:0;font-size:13.5px;line-height:1.7;color:var(--ink2)}
+.cure{margin-top:10px;padding:10px 12px;border-radius:10px;background:#0d0d22;border:1px solid var(--line);font-size:13px;line-height:1.7;color:var(--ink2)}
+/* reference lists */
+.grp{margin:14px 0 4px;font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.06em}
+.grp:first-of-type{margin-top:0}
+.ref p{margin:0;padding:8px 0;border-top:1px solid var(--line);font-family:var(--f-min);font-weight:600;font-size:14.5px;line-height:1.7}
+.ref p i{font-style:normal;font-family:var(--f-tick);font-stretch:82%;font-size:11px;color:var(--muted);margin-right:6px}
+.ref p.on{color:#fff}
+.ref p.on i{color:var(--red)}
+.act h3{margin:0 0 2px;font-size:14px;font-weight:800}
+.act h3 small{font-weight:600;font-size:11px;color:var(--muted);margin-left:6px}
+.act{padding:10px 0;border-top:1px solid var(--line)}
+.act:first-of-type{border-top:0;padding-top:2px}
+.act.on>h3{color:#fff}
+.bias.cur h3{color:#fff}
+.bias.cur h3::after{content:"注意";display:inline-block;font-size:10px;font-weight:800;color:#fff;background:var(--red);border-radius:4px;padding:1px 5px;margin-left:6px;vertical-align:2px}
+.act.on>h3::before{content:"今";display:inline-block;font-size:10px;font-weight:800;color:#fff;background:var(--red);border-radius:4px;padding:1px 5px;margin-right:6px;vertical-align:2px}
+.foot{margin-top:18px;text-align:center;font-size:11px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand"><img class="avatar" src="icons/icon-192.png" alt="" width="44" height="44">
+      <div><h1>Mind</h1><div class="ed" id="ed"></div></div></div>
+    <nav class="seg" id="tabs">
+      <button data-tab="today" aria-pressed="true">今朝</button>
+      <button data-tab="words" aria-pressed="false">30の言葉</button>
+      <button data-tab="biases" aria-pressed="false">10のバイアス</button>
+    </nav>
+  </header>
+  <main>
+    <div id="t-today">
+      <section class="panel" id="scene"><div class="empty">読み込み中…</div></section>
+      <section class="panel" id="word"></section>
+      <section class="panel" id="bias"></section>
+    </div>
+    <div id="t-words" hidden><section class="panel ref" id="words"></section></div>
+    <div id="t-biases" hidden><section class="panel" id="acts"></section></div>
+  </main>
+  <div class="foot">『VIXの声を聴け』第二部「心」より · 恐怖指数研究所 Gold Locks</div>
+</div>
+<script src="engine.js"></script>
+<script>
+const APP_VER="mind-v1";
+const $=id=>document.getElementById(id);
+const DATA_BASE="/mri-app/data/";
+
+// 第四章 30の言葉
+const WORDS=[
+  ["恐怖と向き合う",[[1,"恐怖を制するものは相場を制す。恐怖の底は浅いものではない。悲鳴も聞こえなくなる"],[2,"恐怖は伝播し、増幅しながら全てを呑み込んでいく。恐怖のどん底では、確信がなければ買い向かえない"],[3,"怯えるのではなく、備える。準備はとっくに終わっている"]]],
+  ["待機金は命綱",[[4,"待機金という言葉がとても好きだ。ただ待つのではなく、機をうかがいながら。そこには張りつめた緊張感がある"],[5,"時間を味方につけるとは、待つことが大事だということだ"],[6,"警戒せよとは、カウンターを打つ準備ができているかを確認せよとの意味だ。待機金がゼロとは、弾倉が空っぽの銃を持って戦場に立つことだ"]]],
+  ["大衆の逆",[[7,"常識を疑え。投資の世界における常識とは大衆の考えだ。大衆が群がるものは大抵危うく、大衆が危ういというものは大抵良いものだ"],[8,"誰も買えないタイミングで買うと勝てる。皆が買うタイミングで買うと負ける。皆が完全に興味を失ったものを執念深く持っていると破綻する"],[9,"天井で売ると言う者は、天井を見つけるロジックを持っていない"],[10,"パーティーに遅れて行けば、ぬるいシャンパンと乾いた料理が待っている"],[11,"全ての資産クラスが売られ、キャッシュがキングとなる時。それが大底だ"]]],
+  ["感情を排除",[[12,"正しい予想などしようとするな。正しい行動をしろ"],[13,"感情は完全に排除している。売買タイミングと量は全て数学的に算出され、事前に決定されている"],[14,"買いたい時はもっと下がって欲しいと思う。この感情に折り合いをつけることは出来ない。だから全て排除するため長期クオンツを選択した"]]],
+  ["失敗と戦略",[[15,"仮説、検証、棄却。90%以上は棄却だ。それは失敗ではない。実行前に何度でも棄却しろ"],[16,"間違いに気づいた時が、損切りの最良のタイミングだ"],[17,"戦術にこだわりすぎて、戦略を見失う。戦略にこだわりすぎて、目的を見失う。目的にこだわりすぎて、環境の変化に気づかない"],[18,"調子にのったら終わり。失敗のほとんどは後から振り返るとこれが原因だ"],[19,"あの時買っておけばよかった。負ける人がよく言うセリフだ"]]],
+  ["才能と覚悟",[[20,"底で買って高く売るだけ。そのために途方もない時間を学習に費やした。それを苦労だと思わないのが才能だ"],[21,"失敗を糧として成長するは正しいが、生き残ることが前提条件だ"],[22,"確信とは、他人に貰うものではなく、自己完結するものだ。夜明け前が一番暗いは本当だ。確信がなければカウンターは打てない"],[23,"ここで買えるか買えないかで、力量がわかる。勝つ負けるではない。買えるか買えないかだ"]]],
+  ["個人投資家の優位性",[[24,"ヘッジファンドは静観することが許されない。個人投資家は全てが許される。それに気づき実行した時、プロが動けない場所が買い場になる"],[25,"儲かる年か、仕込む年か。その2つしかない"],[26,"右往左往してはいけない。長期投資はクルーズ船の操舵だ。ボートレースをやっているわけではない"]]],
+  ["テクノロジーの未来",[[27,"テクノロジーの未来だけは、強く信じられる。誰が何と言おうと、揺らがない"],[28,"テクノロジーはいつも不安と懸念の種だが、いい意味でそれを裏切ってきた"]]],
+  ["幸福と投資",[[29,"幸福であることが、投資をする上で最も重要な要素だ。丁寧な生活で、丁寧な投資を"],[30,"不幸とは何か。皆スラスラと答える。幸福とは何か。皆わからないと言う。数学的に言えば、幸福とは不幸でないことだ"]]]];
+const W={};WORDS.forEach(([g,ws])=>ws.forEach(([n,t])=>W[n]={n,t,g}));
+
+// 第五章 動けない理由：四幕と10のバイアス
+const BIAS={
+  recency:["直近バイアス","人間の記憶は直近の出来事に引っ張られる。前回のVIXイベントから時間が経つと、あの恐怖は薄れる。待機金を削る。備えを緩める。しかしVIXイベントは3.05年に1回来る。記憶が薄れた頃に。"],
+  bandwagon:["バンドワゴン効果","皆が買っているから買う。乗り遅れることへの恐怖（FOMO）が、リスクの評価を上書きする。全員が同じ方向を向いている時、風船は最も危うい。"],
+  overconf:["過剰自信バイアス","「自分はパニックにならない」と思っている。備えの甘さを、根拠のない自信が補ってしまう。実際の局面では、誰もが初めてその恐怖を経験する。"],
+  planning:["計画の誤謬","「待機金は来月から積み立てよう」。その来月は来ない。備えには締め切りがない。だから永遠に先送りされる。「いつかやる」は「やらない」と同義だ。"],
+  normalcy:["正常性バイアス","脳は異常を異常と認識することを拒む。VIXが急騰し始めた時、最初の反応は「一時的な調整だ」。異常のサイズを過小評価する。その間に、針は深く刺さっていく。"],
+  confirm:["確証バイアス","「一時的だ」という記事だけを探す。正常性バイアスが「感じない」なら、確証バイアスは「見ない」だ。ポジションを持っていると、さらに強化される。"],
+  herd:["群衆心理","皆が売るから売る。第一幕のバンドワゴンが、真逆の方向に働く。売りが売りを呼ぶ。しかしVIXイベントの大底は、全員が売っている瞬間に形成される。"],
+  loss:["損失回避バイアス","損失の痛みは利益の喜びの2倍強い。高値で買った株が半値になっている。「これ以上損したくない」。だから底で買えない。"],
+  anchor:["アンカリング","一度見た安値が脳に刻まれる。戻り始めると「まだ安値より高い」と二番底を待つ。しかし二番底は来ない。下落の速度も記憶に刻まれる。"],
+  status:["現状維持バイアス","「何もしない」こと自体を安全と錯覚する。待機金を持ちながら動かないことは、備えではない。設計した戦略を、決定的な瞬間に放棄することだ。"]};
+const ACTS=[
+  ["第一幕","平穏の中で","風船が膨らんでいる。しかし誰も気づかない",["recency","bandwagon","overconf","planning"],"平穏"],
+  ["第二幕","針が刺さった瞬間","VIXが急騰し始めた",["normalcy","confirm"],"針"],
+  ["第三幕","パニックの渦中","市場が崩壊していく",["herd"],"パニック"],
+  ["第四幕","底と反転","VIXが頂点に達した。株価が反転し始めた",["loss","anchor","status"],"底と反転"]];
+
+// the scenes the morning can fall into: [act index, name, what is happening, biases, words]
+const SCENES={
+  calm:[0,"平穏","VIXは静かだ。静かな時間の方が圧倒的に長い。だからこそ人は忘れ、備えを怠る。待つことと、緩むことは違う。",["recency","planning"],[4,5,25,26,3,29,30,21,15]],
+  after:[0,"余震","前回のVIXイベントから1年以内。余震フェーズでは株価が戻り、人は「どうせ戻る」と学習する。その油断を、次の本震が回収する。",["recency","bandwagon"],[18,6,3,26,12,21]],
+  balloon:[0,"風船","風船が見えている。膨らんでいるという事実だけで、量を調整する理由になる。観察が行動を変える唯一の場面だ。",["bandwagon","overconf"],[7,9,10,18,17,6,8]],
+  needle:[1,"針","VIXが+1σを超えた。最初の反応は「一時的な調整だ」。異常を異常と認めない間に、針は深く刺さっていく。",["normalcy","confirm"],[12,16,13,3,6,1]],
+  panic:[2,"パニック","VIXイベント発生中。VIXが+2σを超えた。全員が売っている。その瞬間に大底は形成される。",["herd"],[1,2,11,24,13,7]],
+  rebound:[3,"コツン","5日LWMAが10日LWMAを下回った。恐怖の頂点は過ぎた。最後の壁は、自分の中にある。",["loss","anchor","status"],[22,23,19,8,14,2]],
+  quiet:[3,"静かな底","VIXイベントなしに MRI が BUY を示している。2022年のように、風船は針で割れずに萎むこともある。",["loss","anchor","status"],[23,19,22,25,8,5]]};
+
+const store={get:(k,d)=>{try{return localStorage.getItem("mind."+k)??d}catch(e){return d}},set:(k,v)=>{try{localStorage.setItem("mind."+k,v)}catch(e){}}};
+const state={tab:store.get("tab","today")};
+const fmtD=d=>`${Math.floor(d/10000)}年${Math.floor(d/100)%100}月${d%100}日`;
+const toDate=d=>new Date(Math.floor(d/10000),Math.floor(d/100)%100-1,d%100);
+const monthsBetween=(a,b)=>(Math.floor(b/10000)-Math.floor(a/10000))*12+(Math.floor(b/100)%100-Math.floor(a/100)%100);
+
+async function load(){
+  const get=(f,t)=>fetch(DATA_BASE+f,{cache:"no-cache"}).then(r=>{if(!r.ok)throw new Error(f);return t?r.text():r.json()});
+  const [vix,csv,mri]=await Promise.all([get("vix.json"),get("vix_history.csv",1),get("mri.json")]);
+  const days=csv.trim().split("\n").slice(1).map(l=>{const c=l.split(","),[m,d,y]=c[0].split("/");return[+(y+m+d),+c[2]]});
+  // Cboe's history file can lag a few days; fill the gap with the daily VIX the MRI app keeps (a close, so a little under the high)
+  const last=days[days.length-1][0];mri.daily.forEach(r=>{if(r[0]>last&&r[1])days.push([r[0],r[1],1])});
+  // ?d=YYYYMMDD replays a past morning (for checking the scenes against history)
+  const asof=+new URLSearchParams(location.search).get("d");
+  if(asof){const cut=x=>x[0]<=asof;return {vix,days:days.filter(cut),mri:{...mri,daily:mri.daily.filter(cut)}};}
+  return {vix,days,mri};
+}
+
+function judge({vix,days,mri}){
+  const {st,ev}=MindEngine.runEvents(days,vix.months);
+  const i=st.length-1,s=st[i],day=days[i][0];
+  // MRI signals, latched like the MRI app: technical bubble on CAPE, SELL and BUY on MRI
+  const PIT=mri.pit||{},CERT={tbub:{},sell:{},buy:{}};(mri.certified||[]).forEach(c=>{if(CERT[c.signal])CERT[c.signal][c.date]=c.level});
+  const R=mri.daily.map(r=>{const q=PIT[r[0]];if(!q)return r;const x=r.slice();x[6]=q[0];x[7]=q[1];return x});
+  const up=(v,t)=>t.filter(x=>v>=x).length,dn=(v,t)=>t.filter(x=>v<=x).length;
+  const tb=MindEngine.latch(R,r=>up(r[6],[.841345,.97725,.99865]),r=>r[6]<=.5,CERT.tbub);
+  const se=MindEngine.latch(R,r=>up(r[7],[.8,.85,.9]),r=>r[7]<=.5,CERT.sell);
+  const bu=MindEngine.latch(R,r=>dn(r[7],[.075,.05,.025]),r=>r[7]>=.5,CERT.buy);
+  const k=R.length-1,mriNow=R[k][7],sig={tbub:tb[k],sell:se[k],buy:bu[k]};
+  const done=ev.filter(e=>e.end),last=done[done.length-1],cur=ev.find(e=>!e.end);
+  const recentNeedle=st.slice(-5).some(x=>x.high>=x.s1);
+  let key;
+  if(s.phase==="panic")key="panic";
+  else if(s.phase==="rebound")key="rebound";
+  else if(sig.buy)key="quiet";
+  else if(recentNeedle)key="needle";
+  else if(sig.tbub||sig.sell)key="balloon";
+  else if(last&&monthsBetween(last.end,day)<12)key="after";
+  else key="calm";
+  return {key,day,s,approx:!!days[i][2],sig,mriNow,last,cur,sinceLast:last?monthsBetween(last.start,day):null};
+}
+
+function dayIndex(d){return Math.floor(toDate(d).getTime()/864e5)}
+function render(J){
+  const S=SCENES[J.key],[ai,name,desc,biases,words]=S,act=ACTS[ai];
+  $("ed").textContent=`${fmtD(J.day)}の相場`;
+  const s=J.s,sigTxt=[J.sig.tbub?`バブル Lv.${J.sig.tbub}`:"",J.sig.sell?`SELL ${[0,80,85,90][J.sig.sell]}`:"",J.sig.buy?`BUY ${[0,7.5,5,2.5][J.sig.buy]}`:""].filter(Boolean);
+  $("scene").innerHTML=`<div class="ph"><h2>今朝の局面</h2><span class="asof">第五章「動けない理由」</span></div>
+    <div class="acts">${ACTS.map((a,j)=>`<div class="${j===ai?"on":""}"><b>${a[0]}</b>${a[4]}</div>`).join("")}</div>
+    <div class="scene"><small>${act[0]}　${act[1]}</small>${name}</div>
+    <p class="sdesc">${desc}</p>
+    <div class="kv">
+      <div><span>${J.approx?"VIX":"VIX 日足高値"}</span><b>${s.high.toFixed(2)}</b><small>+1σ ${s.s1.toFixed(1)}</small><small>+2σ ${s.s2.toFixed(1)}</small></div>
+      <div><span>MRI</span><b>${(J.mriNow*100).toFixed(1)}</b>${sigTxt.length?sigTxt.map(x=>`<small>${x}</small>`).join(""):"<small>シグナルなし</small>"}</div>
+      <div><span>VIXイベント</span><b>${J.cur?"発生中":J.sinceLast+"<small style='display:inline'> ヶ月前</small>"}</b><small>${J.cur?fmtD(J.cur.start)+"〜":J.last?fmtD(J.last.start):""}</small></div>
+    </div>`;
+  // the word of the day turns over each day among the scene's words
+  const di=dayIndex(J.day),main=W[words[di%words.length]],rest=words.filter(n=>n!==main.n).slice(0,3).map(n=>W[n]);
+  $("word").innerHTML=`<div class="ph"><h2>今日の言葉</h2><span class="asof">第四章「30の言葉」</span></div>
+    <p class="word">${main.t}</p><div class="wmeta"><b>${main.n}</b>　${main.g}</div>
+    <div class="more">${rest.map(w=>`<p><i>${w.n}</i>${w.t}</p>`).join("")}</div>`;
+  $("bias").innerHTML=`<div class="ph"><h2>気をつけるバイアス</h2><span class="asof">${act[0]}</span></div>`+
+    biases.map(b=>`<div class="bias"><h3>${BIAS[b][0]}</h3><p>${BIAS[b][1]}</p></div>`).join("")+
+    `<div class="cure">バイアスを知っても、バイアスは消えない。働く瞬間を事前に特定し、その瞬間に感情ではなく数字に従う仕組みを、恐怖が来る前に作っておく。</div>`;
+  const on=new Set(words);
+  $("words").innerHTML=`<div class="ph"><h2>30の言葉</h2><span class="asof">赤い番号が今の局面の言葉</span></div>`+
+    WORDS.map(([g,ws])=>`<div class="grp">${g}</div>`+ws.map(([n,t])=>`<p class="${on.has(n)?"on":""}"><i>${n}</i>${t}</p>`).join("")).join("");
+  $("acts").innerHTML=`<div class="ph"><h2>四幕と10のバイアス</h2><span class="asof">VIXイベントの時系列</span></div>`+
+    ACTS.map((a,j)=>`<div class="act${j===ai?" on":""}"><h3>${a[0]}　${a[1]}<small>${a[2]}</small></h3>${a[3].map(b=>`<div class="bias${biases.includes(b)?" cur":""}"><h3>${BIAS[b][0]}</h3><p>${BIAS[b][1]}</p></div>`).join("")}</div>`).join("");
+}
+
+function renderTabs(){
+  document.querySelectorAll("#tabs button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.tab===state.tab));
+  ["today","words","biases"].forEach(k=>$("t-"+k).hidden=state.tab!==k);
+}
+$("tabs").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;state.tab=b.dataset.tab;store.set("tab",state.tab);renderTabs();window.scrollTo(0,0)});
+renderTabs();
+load().then(D=>render(judge(D))).catch(e=>{$("scene").innerHTML=`<div class="empty">データを読み込めませんでした</div>`;console.error(e)});
+if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});
+</script>
+</body>
+</html>
