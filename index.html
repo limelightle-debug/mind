@@ -164,7 +164,7 @@ h1{margin:0;font-size:21px;font-weight:800;letter-spacing:.04em;line-height:1.15
 <script src="engine.js"></script>
 <script src="calendar.js"></script>
 <script>
-const APP_VER="mind-v25";
+const APP_VER="mind-v26";
 const $=id=>document.getElementById(id);
 const DATA_BASE="/mri-app/data/";
 // language: shared with the other apps on this site ("lang" in localStorage)
@@ -239,6 +239,7 @@ const TOI=[["あなたの資産全体に対して、実際の露出は何倍か�
   ["その現金は、何か仕事をしているか。","Is that cash doing any work?"],
   ["あなたの読みは、到着時刻まで合っている必要があるか。","Does your read have to be right down to the arrival time?"],
   ["外れたとき、それは保険料で済むか。","If you are wrong, does it cost no more than an insurance premium?"]];
+const QL=q=>P(q).replace(/。$/,"");
 const TEACH={
   ltcm:[1,"正しかった男たち","LTCMは、正しかったことが解体された後に証明された。","LTCM was proven right after it had been dismantled."],
   leo:[2,"まだ外れていない予測","アッシェンブレナーは、正しいかどうかが確定する前に、公開株のポジションだけが消えた。","Aschenbrenner's public-equity positions vanished before anyone could know whether he was right."],
@@ -363,7 +364,7 @@ function renderToday(J){
   // the question of the day, with one of the eight records as its example
   const tp=SCENE_TOI[J.key][di%SCENE_TOI[J.key].length],q=TOI[tp[0]],t=TEACH[tp[1]];
   $("toi").innerHTML=ph(L("今日の問い","Question of the day"),`${bookName("shippai")}${L("終章"," · Final ch.")}`)+
-    `<p class="word">${P(q)}</p><div class="bias"><span class="cap">${L(`第${KAN[t[0]]}章「${t[1]}」`,`Ch. ${t[0]}`)}</span><p>${L(t[2],t[3])}</p></div>`;
+    `<p class="word">${QL(q)}</p><div class="bias"><span class="cap">${L(`第${KAN[t[0]]}章「${t[1]}」`,`Ch. ${t[0]}`)}</span><p>${L(t[2],t[3])}</p></div>`;
   // the strategy of the day
   const hk=SCENE_HEIHO[J.key][di%SCENE_HEIHO[J.key].length],h=HEIHO[hk];
   // the principle comes from the final chapter's list; the line beneath it from the chapter that shows it
@@ -378,7 +379,7 @@ function renderRef(){
     ACTS.map(a=>`<div class="act"><h3>${P(a[0])}　${P(a[1])}<small>${P(a[2])}</small></h3>${a[3].map(b=>`<div class="bias"><h3>${BN(b)}</h3><p>${BT(b)}</p></div>`).join("")}</div>`).join("");
   const PARTS=[[["第一部　退場した者","Part 1 · Those forced out"],["ltcm","leo","livermore"]],[["第二部　戻ってきた者","Part 2 · Those who came back"],["burry","dalio","simons"]],[["第三部　渡さなかった者","Part 3 · Those who never handed it over"],["buffett","marks"]]];
   $("toilist").innerHTML=ph(L("四つの問い","Four questions"),`${bookName("shippai")}${L("終章"," · Final ch.")}`)+
-    TOI.map((q,i)=>`<div class="an"><i class="v">${i+1}</i><div><b>${P(q)}</b></div></div>`).join("")+
+    TOI.map((q,i)=>`<div class="an"><i class="v">${i+1}</i><div><b>${QL(q)}</b></div></div>`).join("")+
     `<div class="grp">${L("8つの記録","Eight records")}</div>`+
     PARTS.map(([g,ks])=>`<div class="grp">${P(g)}</div>`+ks.map(k=>{const t=TEACH[k];return `<div class="bias"><span class="cap">${L(`第${KAN[t[0]]}章「${t[1]}」`,`Ch. ${t[0]}`)}</span><p>${L(t[2],t[3])}</p></div>`}).join("")).join("");
   const HG=[[["繰り返し現れたもの","What kept recurring"],["makenai","basho","kachu","yamedoki","tettai"]],[["構えあって構えなし","A stance, and no stance"],["kamae","kakushin"]],[["第一部　宮本武蔵","Part 1 · Miyamoto Musashi"],["tateki"]]];
