@@ -120,7 +120,7 @@ h1{margin:0;font-size:21px;font-weight:800;letter-spacing:.04em;line-height:1.15
 </div>
 <script src="engine.js"></script>
 <script>
-const APP_VER="mind-v2";
+const APP_VER="mind-v3";
 const $=id=>document.getElementById(id);
 const DATA_BASE="/mri-app/data/";
 
@@ -173,8 +173,8 @@ const monthsBetween=(a,b)=>(Math.floor(b/10000)-Math.floor(a/10000))*12+(Math.fl
 
 async function load(){
   const get=(f,t)=>fetch(DATA_BASE+f,{cache:"no-cache"}).then(r=>{if(!r.ok)throw new Error(f);return t?r.text():r.json()});
-  const [vix,csv,mri]=await Promise.all([get("vix.json"),get("vix_history.csv",1),get("mri.json")]);
-  const days=csv.trim().split("\n").slice(1).map(l=>{const c=l.split(","),[m,d,y]=c[0].split("/");return[+(y+m+d),+c[2]]});
+  const [vix,daily,mri]=await Promise.all([get("vix.json"),get("vix_daily.json"),get("mri.json")]);
+  const days=daily.high.map(x=>[x[0],x[1]]);
   // Cboe's history file can lag a few days; fill the gap with the daily VIX the MRI app keeps (a close, so a little under the high)
   const last=days[days.length-1][0];mri.daily.forEach(r=>{if(r[0]>last&&r[1])days.push([r[0],r[1],1])});
   // ?d=YYYYMMDD replays a past morning (for checking the scenes against history)
@@ -229,8 +229,11 @@ function render(J){
   $("bias").innerHTML=`<div class="ph"><h2>気をつけるバイアス</h2><span class="asof">${act[0]}</span></div>`+
     biases.map(b=>`<div class="bias"><h3>${BIAS[b][0]}</h3><p>${BIAS[b][1]}</p></div>`).join("")+
     `<div class="cure">バイアスを知っても、バイアスは消えない。働く瞬間を事前に特定し、その瞬間に感情ではなく数字に従う仕組みを、恐怖が来る前に作っておく。</div>`;
+  renderRef(words,biases,ai);
+}
+function renderRef(words=[],biases=[],ai=-1){
   const on=new Set(words);
-  $("words").innerHTML=`<div class="ph"><h2>30の言葉</h2><span class="asof">赤い番号が今の局面の言葉</span></div>`+
+  $("words").innerHTML=`<div class="ph"><h2>30の言葉</h2><span class="asof">${words.length?"赤い番号が今の局面の言葉":""}</span></div>`+
     WORDS.map(([g,ws])=>`<div class="grp">${g}</div>`+ws.map(([n,t])=>`<p class="${on.has(n)?"on":""}"><i>${n}</i>${t}</p>`).join("")).join("");
   $("acts").innerHTML=`<div class="ph"><h2>四幕と10のバイアス</h2><span class="asof">VIXイベントの時系列</span></div>`+
     ACTS.map((a,j)=>`<div class="act${j===ai?" on":""}"><h3>${a[0]}　${a[1]}<small>${a[2]}</small></h3>${a[3].map(b=>`<div class="bias${biases.includes(b)?" cur":""}"><h3>${BIAS[b][0]}</h3><p>${BIAS[b][1]}</p></div>`).join("")}</div>`).join("");
@@ -242,6 +245,7 @@ function renderTabs(){
 }
 $("tabs").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;state.tab=b.dataset.tab;store.set("tab",state.tab);renderTabs();window.scrollTo(0,0)});
 renderTabs();
+renderRef();
 load().then(D=>render(judge(D))).catch(e=>{$("scene").innerHTML=`<div class="empty">データを読み込めませんでした</div>`;console.error(e)});
 if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});
 </script>
