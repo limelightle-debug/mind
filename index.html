@@ -78,6 +78,8 @@ h1{margin:0;font-size:21px;font-weight:800;letter-spacing:.04em;line-height:1.15
 .bias h3{margin:0 0 3px;font-size:15px;font-weight:800}
 .bias h3 i{font-style:normal;font-size:10.5px;font-weight:700;color:var(--muted);margin-left:6px;letter-spacing:.04em}
 .bias p{margin:0;font-size:14px;line-height:1.7;color:var(--ink2)}
+.cap{display:block;font-size:12px;color:var(--muted);margin:2px 0 1px}
+.word+.bias{border-top:1px solid var(--line);margin-top:8px;padding-top:10px}
 .asofl{margin:8px 0 0;font-size:12px;color:var(--muted);text-align:right}
 .ky{display:flex;gap:12px;align-items:flex-start;padding:9px 0;border-top:1px solid var(--line)}
 .ph+.ky,.kyu+.ky{border-top:0;padding-top:2px}
@@ -142,6 +144,8 @@ h1{margin:0;font-size:21px;font-weight:800;letter-spacing:.04em;line-height:1.15
       <section class="panel" id="scene"><div class="empty">読み込み中…</div></section>
       <section class="panel" id="word"></section>
       <section class="panel" id="bias"></section>
+      <section class="panel" id="toi"></section>
+      <section class="panel" id="heiho"></section>
       <section class="panel" id="koyomi"></section>
       <section class="panel books" data-books="vix,shippai,heiho,anomaly"></section>
     </div>
@@ -154,7 +158,7 @@ h1{margin:0;font-size:21px;font-weight:800;letter-spacing:.04em;line-height:1.15
 <script src="engine.js"></script>
 <script src="calendar.js"></script>
 <script>
-const APP_VER="mind-v20";
+const APP_VER="mind-v22";
 const $=id=>document.getElementById(id);
 const DATA_BASE="/mri-app/data/";
 // language: shared with the other apps on this site ("lang" in localStorage)
@@ -221,8 +225,39 @@ const BOOKS={vix:[["VIXの声を聴け","https://amzn.asia/d/0hrhh1Ny","icons/bo
   shippai:[["失敗の魔術師","https://amzn.asia/d/0hWKU73R","icons/book-shippai.jpg"],["失敗の魔術師","https://amzn.asia/d/0hWKU73R","icons/book-shippai.jpg"]],
   heiho:[["兵法に学べ","https://amzn.asia/d/02BQOi5d","icons/book-heiho.jpg"],["兵法に学べ","https://amzn.asia/d/02BQOi5d","icons/book-heiho.jpg"]],
   anomaly:[["相場のアノマリーを斬る","https://amzn.asia/d/0boQWl0D","icons/book-anomaly.jpg"],["相場のアノマリーを斬る","https://amzn.asia/d/0boQWl0D","icons/book-anomaly.jpg"]]};
+const KAN=["〇","一","二","三","四","五","六","七","八","九","十","十一","十二"];
 const BK=k=>P(BOOKS[k]),bookName=k=>{const b=BK(k)[0];return /^[\x00-\x7F]+$/.test(b)?b:`『${b}』`};
 
+// 『失敗の魔術師』終章「四つの問い」, and the eight records the final chapter lines up (verbatim), with their chapters
+const TOI=[["あなたの資産全体に対して、実際の露出は何倍か。","Against all your assets, how many times exposed are you, really?"],
+  ["その現金は、何か仕事をしているか。","Is that cash doing any work?"],
+  ["あなたの読みは、到着時刻まで合っている必要があるか。","Does your read have to be right down to the arrival time?"],
+  ["外れたとき、それは保険料で済むか。","If you are wrong, does it cost no more than an insurance premium?"]];
+const TEACH={
+  ltcm:[1,"正しかった男たち","LTCMは、正しかったことが解体された後に証明された。","LTCM was proven right after it had been dismantled."],
+  leo:[2,"まだ外れていない予測","アッシェンブレナーは、正しいかどうかが確定する前に、公開株のポジションだけが消えた。","Aschenbrenner's public-equity positions vanished before anyone could know whether he was right."],
+  livermore:[3,"道具のなかった男","リバモアは、中間の道具がない時代に、10倍か現物かの二択で40年戦った。","Livermore fought for 40 years with only two choices, 10x or cash, in an age with no tools in between."],
+  burry:[4,"二年間、保険料を払った男","マイケル・バリーは、正しさが届く直前まで追い詰められ、犯罪者になる危険を冒して耐えた。そして20年かけて、外れても保険料で済む場所へ移った。","Michael Burry was cornered until just before being proven right, and held on at the risk of becoming a criminal. Over 20 years he moved to where being wrong costs only a premium."],
+  dalio:[5,"議会で宣言した男","ダリオは、途中の乗換駅まで正しく着いた。そこで逆方向の電車を選んだ。強制退場させられたのは、遅れたからではない。乗り換えを間違えたからである。","Dalio reached the transfer station on time, then took the train going the other way. He was forced out not for being late, but for changing to the wrong train."],
+  simons:[6,"受話器を耳に当てた男","シモンズは、共同経営者を止められずに損失を出し、判断そのものを人間の手から取り上げた。","Simons failed to stop his partner, took the loss, and then took judgment itself out of human hands."],
+  buffett:[7,"買う側にいた男","バフェットとマンガーは、60年運用して一度も追い詰められなかった。そしてマンガーは、抑えすぎたと言い残して世を去った。","Buffett and Munger invested for 60 years and were never cornered. Munger died saying they had held back too much."],
+  marks:[8,"見ていた男","マークスは、勤め先が9割を失うのを横で見て、そこから予測しない方法を作った。","Marks watched his employer lose 90%, and from it built a method that does not predict."]};
+// 『兵法に学べ』終章「繰り返し現れたもの」 and the battles behind them (verbatim; all from the final chapter except 多敵の位, flagged 1, from chapter 1)
+const HEIHO={
+  kamae:["準備はとっくに終わっている","Preparation was finished long ago","構えを持つ目的は、渦中で構えを意識しなくて済むようにすることだ。","The point of having a stance is not to have to think about it in the thick of it.",["終章","Final ch."],"構えあって構えなし"],
+  makenai:["負けない態勢が先に来る","A position that cannot lose comes first","負けないことは自分でできる。勝てるかどうかは相手次第だ。","Not losing is up to you. Whether you win depends on the other side.",["第三章","Ch. 3"],"長篠"],
+  basho:["どこで戦うかが、先に決まる","Where you fight is decided first","同じ兵力でも、どこで当たるかで結果が変わる。","With the same forces, where you strike changes the result.",["第七章","Ch. 7"],"桶狭間"],
+  kanto:["どこで戦うかが、先に決まる","Where you fight is decided first","同じ兵力でも、どこで当たるかで結果が変わる。","With the same forces, where you strike changes the result.",["第八章","Ch. 8"],"官渡"],
+  tateki:["多敵の位","Against many enemies","全部の局面で戦わない。数年に一度の暴落だけを相手にする。","Don't fight in every phase. Take on only the crash that comes once in several years.",["第一章","Ch. 1"],"吉岡一門",1],
+  kachu:["渦中の判断は、遅れる","Judgment in the thick of it comes late","決まっていれば、報を受けた瞬間に動作が始まる。決まっていなければ、その場で考える。","If it is decided, action starts the moment the report arrives. If not, you start thinking on the spot.",["第十一章","Ch. 11"],"ミッドウェー"],
+  yamedoki:["止め時は、勝っている最中に来る","The time to stop comes while you are winning","限界点を超えた瞬間には、何も起きない。旗も落ちないし、警報も鳴らない。","Nothing happens the moment you pass the culminating point. No flag falls, no alarm sounds.",["第十章","Ch. 10"],"モスクワ"],
+  tettai:["撤退できる者だけが、次を持つ","Only those who can retreat get a next time","三十六計は35の計を並べた最後に、走為上を置いた。逃げることを体系の終点に置いている。","The Thirty-Six Stratagems ends, after 35, with \"retreat is best\": running away is where the system ends.",["第十二章","Ch. 12"],"垓下"],
+  kakushin:["確信は、自己完結する","Conviction is self-contained","確信は、他人から受け取れない。自分の中で完結させるしかない。","Conviction can't be received from others. It has to be completed within yourself.",["終章","Final ch."],"構えあって構えなし"]};
+// per scene: [question index, teacher] pairs and strategies, turning over day by day
+const SCENE_TOI={calm:[[1,"buffett"],[0,"livermore"]],after:[[0,"leo"],[1,"buffett"]],balloon:[[0,"leo"],[0,"ltcm"]],needle:[[2,"dalio"],[3,"burry"]],
+  panic:[[1,"buffett"],[3,"simons"]],rebound:[[3,"burry"],[2,"marks"]],quiet:[[1,"marks"],[0,"livermore"]]};
+const SCENE_HEIHO={calm:["kamae","makenai"],after:["yamedoki","makenai"],balloon:["yamedoki","tettai"],needle:["kachu","tettai"],
+  panic:["tateki","basho"],rebound:["kanto","kakushin"],quiet:["makenai","basho"]};
 // the scenes the day can fall into: [act index, name, what is happening, biases, words]
 const SCENES={
   calm:[0,["平穏","Calm"],["VIXは静かだ。静かな時間の方が圧倒的に長い。だからこそ人は忘れ、備えを怠る。待つことと、緩むことは違う。","VIX is quiet. Quiet time is by far the longer part. That is exactly why people forget and neglect to prepare. Waiting and slackening are different."],["recency","planning"],[4,5,25,26,3,29,30,21,15,20]],
@@ -315,6 +350,16 @@ function renderToday(J){
   $("word").innerHTML=ph(L("今日の言葉","Word of the day"),VIXCH(4))+
     `<p class="word">${L("「","“")}${P(main.t)}${L("」","”")}</p><div class="wmeta"><b>${main.n}</b>　${P(main.g)}</div>`;
   $("bias").innerHTML=ph(L("気をつけるバイアス","Bias to watch"),VIXCH(5))+`<div class="bias"><h3>${BN(b)}</h3><p>${BT(b)}</p></div>`;
+  // the question of the day, with one of the eight records as its example
+  const tp=SCENE_TOI[J.key][di%SCENE_TOI[J.key].length],q=TOI[tp[0]],t=TEACH[tp[1]];
+  $("toi").innerHTML=ph(L("今日の問い","Question of the day"),`${bookName("shippai")}${L("終章"," · Final ch.")}`)+
+    `<p class="word">${P(q)}</p><div class="bias"><span class="cap">${L(`第${KAN[t[0]]}章「${t[1]}」`,`Ch. ${t[0]}`)}</span><p>${L(t[2],t[3])}</p></div>`;
+  // the strategy of the day
+  const hk=SCENE_HEIHO[J.key][di%SCENE_HEIHO[J.key].length],h=HEIHO[hk];
+  // the principle comes from the final chapter's list; the line beneath it from the chapter that shows it
+  const fromCh1=h[6]===1,same=fromCh1||h[4][0]==="終章";
+  $("heiho").innerHTML=ph(L("今日の兵法","Strategy of the day"),`${bookName("heiho")}${fromCh1?L("第一章"," · Ch. 1"):L("終章"," · Final ch.")}`)+
+    `<div class="bias"><h3>${L(h[0],h[1])}</h3>${same?"":`<span class="cap">${L(`${h[4][0]}「${h[5]}」`,h[4][1])}</span>`}<p>${L(h[2],h[3])}</p></div>`;
 }
 function renderRef(){
   $("words").innerHTML=ph(L("30の言葉","30 words"),VIXCH(4))+
