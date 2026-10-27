@@ -165,7 +165,7 @@ h1{margin:0;font-size:21px;font-weight:800;letter-spacing:.04em;line-height:1.15
 <script src="engine.js"></script>
 <script src="calendar.js"></script>
 <script>
-const APP_VER="mind-v23";
+const APP_VER="mind-v24";
 const $=id=>document.getElementById(id);
 const DATA_BASE="/mri-app/data/";
 // language: shared with the other apps on this site ("lang" in localStorage)
@@ -289,10 +289,11 @@ async function load(){
   const days=daily.high.map(x=>[x[0],x[1]]);
   // Cboe's history file can lag a few days; fill the gap with the daily VIX the MRI app keeps (a close, so a little under the high)
   const last=days[days.length-1][0];mri.daily.forEach(r=>{if(r[0]>last&&r[1])days.push([r[0],r[1],1])});
-  // ?d=YYYYMMDD replays a past day (for checking the scenes against history)
+  // the day's reading is fixed at 7:00 Japan time: it uses the US sessions closed before today's date, never the live value
+  // (?d=YYYYMMDD replays the reading made after that day's close, for checking the scenes against history)
   const asof=+new URLSearchParams(location.search).get("d");
-  if(asof){const cut=x=>x[0]<=asof;return {vix,days:days.filter(cut),mri:{...mri,daily:mri.daily.filter(cut)}};}
-  return {vix,days,mri};
+  const cut=asof?x=>x[0]<=asof:x=>x[0]<fortuneDay();
+  return {vix,days:days.filter(cut),mri:{...mri,daily:mri.daily.filter(cut)}};
 }
 
 function judge({vix,days,mri}){
@@ -322,6 +323,9 @@ function judge({vix,days,mri}){
 // the verdicts come from the final chapter of 『相場のアノマリーを斬る』; cited by chapter like the other panels
 const FINAL=()=>`${bookName("anomaly")}${L("終章"," · Final ch.")}`;
 const VIXCH=n=>`${bookName("vix")}${L(`第${"〇一二三四五"[n]}章`,` · Ch. ${n}`)}`;
+// the day turns over at 7:00 Japan time (after the US close), like a morning fortune; before that it is still yesterday
+function fortuneDay(){const j=new Date(Date.now()+(9-7)*36e5);return j.getUTCFullYear()*10000+(j.getUTCMonth()+1)*100+j.getUTCDate()}
+const fmtMD=d=>L(`${Math.floor(d/100)%100}/${d%100}`,`${MON[Math.floor(d/100)%100-1].slice(0,3)} ${d%100}`);
 const jstTime=iso=>{const t=new Date(Date.parse(iso)+9*36e5);return `${t.getUTCMonth()+1}/${t.getUTCDate()} ${t.getUTCHours()}:${String(t.getUTCMinutes()).padStart(2,"0")}`};
 const dayIndex=d=>Math.floor(toDate(d).getTime()/864e5);
 const ph=(h,asof="")=>`<div class="ph"><h2>${h}</h2>${asof?`<span class="asof">${asof}</span>`:""}</div>`;
@@ -335,8 +339,7 @@ function renderKoyomi(n){
     (K.items.length?K.items.map(k=>`<div class="ky"><b class="v v${k.v}">${MARK[k.v]}</b><div><span>${P(k.when)} · ${P(k.fate)}</span><p>${P(k.claim)}</p></div></div>`).join(""):`<p class="kyu">${L("当たる通説はない","No claims fall on this day")}</p>`);
 }
 function renderToday(J){
-  // the day turns over at 7:00 Japan time (after the US close), like a morning fortune; before that it is still yesterday
-  const jst=new Date(Date.now()+(9-7)*36e5),dt=new Date(jst.getUTCFullYear(),jst.getUTCMonth(),jst.getUTCDate()),tn=dt.getFullYear()*10000+(dt.getMonth()+1)*100+dt.getDate();
+  const tn=fortuneDay(),dt=toDate(tn);
   const wk=L("日月火水木金土"[dt.getDay()]+"曜日",["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"][dt.getDay()]);
   $("date").innerHTML=LANG==="en"?`<b>${MON[dt.getMonth()]} ${dt.getDate()}</b><span>${wk}　${dt.getFullYear()}　·　7:00 JST</span>`
     :`<b>${dt.getMonth()+1}<i>月</i>${dt.getDate()}<i>日</i></b><span>${dt.getFullYear()}年　${wk}　·　7:00 更新</span>`;
@@ -352,7 +355,7 @@ function renderToday(J){
       <div><span>${J.approx?"VIX":L("VIX 日足高値","VIX daily high")}</span><b>${s.high.toFixed(2)}</b><small>+1σ ${s.s1.toFixed(1)}</small><small>+2σ ${s.s2.toFixed(1)}</small></div>
       <div><span>MRI</span><b>${(J.mriNow*100).toFixed(1)}</b>${sigTxt.length?sigTxt.map(x=>`<small>${x}</small>`).join(""):`<small>${L("シグナルなし","No signal")}</small>`}</div>
       <div><span>${L("VIXイベント","VIX event")}</span><b>${J.cur?L("発生中","Under way"):J.sinceLast+`<small style='display:inline'>${L(" ヶ月前"," mo ago")}</small>`}</b><small>${J.cur?fmtD(J.cur.start)+"〜":J.last?fmtD(J.last.start):""}</small></div>
-    </div>${J.asof?`<p class="asofl">${L("データ","Data")} ${jstTime(J.asof)}${L("（日本時間）"," JST")}</p>`:""}`;
+    </div><p class="asofl">${L(`${fmtMD(J.day)} 米国市場の引けまで`,`Through the US close of ${fmtMD(J.day)}`)}</p>`;
   // the word and the bias of the day turn over with the date (7:00 Japan time), among the scene's own
   const di=dayIndex(tn),main=W[words[di%words.length]],b=biases[di%biases.length];
   $("word").innerHTML=ph(L("今日の言葉","Word of the day"),VIXCH(4))+
@@ -410,8 +413,11 @@ $("tabs").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)
 $("subtabs").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;state.sub=b.dataset.sub;store.set("sub",state.sub);renderTabs();window.scrollTo(0,0)});
 $("lang").addEventListener("click",e=>{const b=e.target.closest("[data-lang]");if(!b||b.dataset.lang===LANG)return;LANG=b.dataset.lang;try{localStorage.setItem("lang",LANG)}catch(e){}renderAll()});
 renderAll();
-document.addEventListener("visibilitychange",()=>{if(!document.hidden)renderAll()});
-load().then(D=>{JUDGED=judge(D);renderAll()}).catch(e=>{FAILED=true;renderAll();console.error(e)});
+// read the data for the day; when the page comes back after 7:00 on a new day, read again so the reading moves with the date
+let LOADED=0;
+const refresh=()=>{LOADED=fortuneDay();load().then(D=>{JUDGED=judge(D);FAILED=false;renderAll()}).catch(e=>{FAILED=true;renderAll();console.error(e)})};
+document.addEventListener("visibilitychange",()=>{if(document.hidden)return;if(fortuneDay()!==LOADED)refresh();else renderAll()});
+refresh();
 if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});
 </script>
 </body>
