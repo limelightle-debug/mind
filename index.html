@@ -47,9 +47,9 @@ h1{margin:0;font-size:21px;font-weight:800;letter-spacing:.04em;line-height:1.15
 .date b i{font-style:normal;font-family:var(--f-body);font-size:24px;font-weight:800;margin:0 4px 0 2px}
 .date span{display:block;margin-top:8px;font-size:13px;color:var(--muted);letter-spacing:.08em}
 .panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-top:10px}
-.ph{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 8px}
-.ph h2{margin:0;font-size:13px;font-weight:700;letter-spacing:.04em;color:var(--ink2)}
-.ph .asof{font-size:11.5px;color:var(--muted)}
+.ph{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin:2px 0 10px}
+.ph h2{margin:0;font-size:17px;font-weight:800;letter-spacing:.04em;color:var(--ink)}
+.ph .asof{font-size:12px;color:var(--muted)}
 .empty{padding:40px 0;text-align:center;color:var(--muted)}
 /* the four acts */
 .acts{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin:2px 0 12px}
@@ -57,9 +57,9 @@ h1{margin:0;font-size:21px;font-weight:800;letter-spacing:.04em;line-height:1.15
 .acts div b{display:block;font-size:11px;color:var(--ink2);font-weight:700}
 .acts div.on{background:var(--red);border-color:var(--red);color:#fff}
 .acts div.on b{color:#fff}
-.scene{font-size:22px;font-weight:800;letter-spacing:.04em;line-height:1.25}
+.scene{font-size:20px;font-weight:800;letter-spacing:.04em;line-height:1.25}
 .scene small{display:block;font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.06em;margin-bottom:2px}
-.sdesc{margin:6px 0 0;color:var(--ink2);font-size:13.5px;line-height:1.65}
+.sdesc{margin:6px 0 0;color:var(--ink2);font-size:14px;line-height:1.65}
 .kv{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
 .kv div{background:#0d0d22;border:1px solid var(--line);border-radius:10px;padding:8px 10px;min-width:0}
 .kv span{display:block;font-size:10.5px;color:var(--muted);white-space:nowrap}
@@ -67,9 +67,9 @@ h1{margin:0;font-size:21px;font-weight:800;letter-spacing:.04em;line-height:1.15
 .kv small{display:block;font-family:var(--f-tick);font-stretch:82%;font-size:11.5px;color:var(--ink2);white-space:nowrap}
 .kv b.j{font-family:var(--f-body);font-stretch:100%;font-size:15px;line-height:1.55}
 /* the word */
-.word{margin:4px 0 2px;font-family:var(--f-min);font-weight:800;font-size:20px;line-height:1.75;letter-spacing:.02em}
+.word{margin:4px 0 4px;font-family:var(--f-min);font-weight:800;font-size:18px;line-height:1.75;letter-spacing:.02em}
 .word::before{content:"「"}.word::after{content:"」"}
-.wmeta{font-size:11.5px;color:var(--muted)}
+.wmeta{font-size:12px;color:var(--muted)}
 .wmeta b{font-family:var(--f-tick);font-stretch:82%;color:var(--ink2)}
 .more{margin-top:12px;border-top:1px solid var(--line)}
 .more p{margin:0;padding:9px 0;border-bottom:1px solid var(--line);font-family:var(--f-min);font-weight:600;font-size:14.5px;line-height:1.7;color:var(--ink2)}
@@ -79,27 +79,26 @@ h1{margin:0;font-size:21px;font-weight:800;letter-spacing:.04em;line-height:1.15
 .bias{padding:10px 0;border-top:1px solid var(--line)}
 .bias:first-of-type{border-top:0;padding-top:2px}
 .ph+.bias{border-top:0;padding-top:2px}
-.bias h3{margin:0 0 3px;font-size:15.5px;font-weight:800}
+.bias h3{margin:0 0 3px;font-size:15px;font-weight:800}
 .bias h3 i{font-style:normal;font-size:10.5px;font-weight:700;color:var(--muted);margin-left:6px;letter-spacing:.04em}
-.bias p{margin:0;font-size:13.5px;line-height:1.7;color:var(--ink2)}
+.bias p{margin:0;font-size:14px;line-height:1.7;color:var(--ink2)}
 .ky{display:flex;gap:12px;align-items:flex-start;padding:9px 0;border-top:1px solid var(--line)}
 .ph+.ky,.kyu+.ky{border-top:0;padding-top:2px}
-.ky .v{flex:none;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-family:"Hiragino Sans",var(--f-body);font-size:17px;font-weight:700;line-height:1;margin-top:6px}
+.ky .v{flex:none;width:22px;padding-top:15px;text-align:center;font-family:"Hiragino Sans",var(--f-body);font-size:15px;font-weight:700;line-height:1.5}
 .ky .vo{color:var(--ink)}.ky .vt{color:var(--ink2)}.ky .vx{color:var(--muted)}
-.ky span{display:block;font-size:11.5px;color:var(--muted)}
-.ky p{margin:1px 0 0;font-size:14.5px;font-weight:700;line-height:1.5}
-.ky p i{font-style:normal;font-weight:400;font-size:12px;color:var(--muted);margin-left:8px}
+.ky span{display:block;font-size:12px;color:var(--muted)}
+.ky p{margin:1px 0 0;font-size:15px;font-weight:700;line-height:1.5}
 .kyu{margin:0 0 6px;font-size:13px;color:var(--muted)}
 .cure{margin-top:10px;padding:10px 12px;border-radius:10px;background:#0d0d22;border:1px solid var(--line);font-size:13px;line-height:1.7;color:var(--ink2)}
 /* reference lists */
-.grp{margin:14px 0 4px;font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.06em}
+.grp{margin:16px 0 4px;font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.06em}
 .grp:first-of-type{margin-top:0}
-.ref p{margin:0;padding:8px 0;border-top:1px solid var(--line);font-family:var(--f-min);font-weight:600;font-size:14.5px;line-height:1.7}
-.ref p i{font-style:normal;font-family:var(--f-tick);font-stretch:82%;font-size:11px;color:var(--muted);margin-right:6px}
+.ref p{margin:0;padding:8px 0;border-top:1px solid var(--line);font-family:var(--f-min);font-weight:600;font-size:14px;line-height:1.7}
+.ref p i{font-style:normal;font-family:var(--f-tick);font-stretch:82%;font-size:12px;color:var(--muted);margin-right:6px}
 .ref p.on{color:#fff}
 .ref p.on i{color:var(--red)}
-.act h3{margin:0 0 2px;font-size:14px;font-weight:800}
-.act h3 small{font-weight:600;font-size:11px;color:var(--muted);margin-left:6px}
+.act h3{margin:0 0 2px;font-size:15px;font-weight:800}
+.act h3 small{display:block;font-weight:400;font-size:12px;color:var(--muted);margin-top:1px}
 .act{padding:10px 0;border-top:1px solid var(--line)}
 .act:first-of-type{border-top:0;padding-top:2px}
 .ph+.act{border-top:0;padding-top:2px}
@@ -107,6 +106,22 @@ h1{margin:0;font-size:21px;font-weight:800;letter-spacing:.04em;line-height:1.15
 .bias.cur h3{color:#fff}
 .bias.cur h3::after{content:"注意";display:inline-block;font-size:10px;font-weight:800;color:#fff;background:var(--red);border-radius:4px;padding:1px 5px;margin-left:6px;vertical-align:2px}
 .act.on>h3::before{content:"今";display:inline-block;font-size:10px;font-weight:800;color:#fff;background:var(--red);border-radius:4px;padding:1px 5px;margin-right:6px;vertical-align:2px}
+.an{display:flex;gap:12px;align-items:flex-start;padding:8px 0;border-top:1px solid var(--line)}
+.grp+.an{border-top:0}
+.an .v{flex:none;width:22px;text-align:center;font-family:"Hiragino Sans",var(--f-body);font-size:15px;font-weight:700;line-height:1.5}
+.an .vo{color:var(--ink)}.an .vt{color:var(--ink2)}.an .vx,.an .vn{color:var(--muted)}
+.an b{display:block;font-size:15px;font-weight:700;line-height:1.5}
+.an span{display:block;font-size:12px;color:var(--muted)}
+.mk{display:inline-block;vertical-align:-2px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linejoin:round;stroke-linecap:round}
+.tally .mk{margin-right:2px}
+.tally{display:flex;gap:16px;margin:2px 0 4px;font-size:12px;color:var(--muted)}
+.tally b{font-family:var(--f-tick);font-stretch:85%;font-size:15px;color:var(--ink);margin-left:3px}
+.bk{display:flex;align-items:center;gap:12px;text-decoration:none;padding:6px 0}
+.bk+.bk{border-top:1px solid var(--line);padding-top:10px}
+.bk img{width:44px;height:64px;border-radius:4px;object-fit:cover;flex:none;box-shadow:0 0 0 1px var(--line)}
+.bk b{display:block;font-size:15px}
+.bk span{display:block;font-size:12px;color:var(--accent)}
+.bk em{margin-left:auto;font-style:normal;color:var(--accent);font-size:18px}
 .foot{margin-top:18px;text-align:center;font-size:11px;color:var(--muted)}
 </style>
 </head>
@@ -117,8 +132,9 @@ h1{margin:0;font-size:21px;font-weight:800;letter-spacing:.04em;line-height:1.15
       <div><h1>Mind</h1></div></div>
     <nav class="seg" id="tabs">
       <button data-tab="today" aria-pressed="true">今朝</button>
-      <button data-tab="words" aria-pressed="false">30の言葉</button>
-      <button data-tab="biases" aria-pressed="false">10のバイアス</button>
+      <button data-tab="words" aria-pressed="false">言葉</button>
+      <button data-tab="biases" aria-pressed="false">バイアス</button>
+      <button data-tab="anomaly" aria-pressed="false">アノマリー</button>
     </nav>
   </header>
   <main>
@@ -128,16 +144,18 @@ h1{margin:0;font-size:21px;font-weight:800;letter-spacing:.04em;line-height:1.15
       <section class="panel" id="word"></section>
       <section class="panel" id="bias"></section>
       <section class="panel" id="koyomi"></section>
+      <section class="panel books" data-books="vix,anomaly"></section>
     </div>
-    <div id="t-words" hidden><section class="panel ref" id="words"></section></div>
-    <div id="t-biases" hidden><section class="panel" id="acts"></section></div>
+    <div id="t-words" hidden><section class="panel ref" id="words"></section><section class="panel books" data-books="vix"></section></div>
+    <div id="t-biases" hidden><section class="panel" id="acts"></section><section class="panel books" data-books="vix"></section></div>
+    <div id="t-anomaly" hidden><section class="panel" id="anomaly"></section><section class="panel books" data-books="anomaly"></section></div>
   </main>
-  <div class="foot">『VIXの声を聴け』第二部「心」より · 恐怖指数研究所 Gold Locks</div>
+  <div class="foot">© 恐怖指数研究所 Gold Locks</div>
 </div>
 <script src="engine.js"></script>
 <script src="calendar.js"></script>
 <script>
-const APP_VER="mind-v7";
+const APP_VER="mind-v8";
 const $=id=>document.getElementById(id);
 const DATA_BASE="/mri-app/data/";
 
@@ -172,6 +190,34 @@ const ACTS=[
   ["第三幕","パニックの渦中","市場が崩壊していく",["herd"],"パニック"],
   ["第四幕","底と反転","VIXが頂点に達した。株価が反転し始めた",["loss","anchor","status"],"底と反転"]];
 
+// 『相場のアノマリーを斬る』 終章: all 38 claims (39 verdicts) with where they ended up; v: o ○, t △, x ×, n no verdict
+const ANOMALY=[
+  ["序章　相場の外から来るもの",[["x","水星逆行中は下がる","初めから無かった"]]],
+  ["第一部　カレンダー",[["o","9月は悪い","残っている"],["t","11月は上がる","減った"],["x","夏枯れで8月は弱い","初めから無かった"],["x","1月のバロメーター","初めから無かった"],
+    ["n","年末は上がる","年末年始の7営業日の別名"],["n","1月効果","同じ7営業日の別名"],["t","月末月初は上がる","減った"],["t","月の前半は強い","減った"],
+    ["t","月曜は下がる","減って、反転した"],["t","金曜は上がる","減って、反転した"],["t","祝日の前は上がる","減った"],["t","サンタクロース・ラリー","減った"],
+    ["x","Sell in May","9月と年末年始の別名"],["x","SQの日は荒れる","初めから無かった"],["t","10月は荒れる","減った"]]],
+  ["第二部　政治と政策",[["n","3年目は最も強い","甘い9か月の別名"],["n","中間選挙の年は悪い","弱い6か月の別名"],["x","選挙の年は上がる","初めから無かった"],["x","選挙の翌年は弱い","初めから無かった"],
+    ["o","甘い9か月は強い","残っている"],["o","弱い6か月は弱い","残っている"],["n","安値から高値まで46.8%","測れない"],["t","民主党のほうが高い","決められない"],
+    ["o","FOMCの発表前は上がる（1994-2011）","公表されて消えた"],["x","FOMCの発表前は上がる（2016-2026）","同上"]]],
+  ["第三部　相場の外から",[["t","新月のころは上がる","決められない"],["x","秋は弱い","9月の別名"],["x","冬は強い","年末年始の7営業日の別名"],["x","旧NFL系が勝てば上がる","初めから無かった"]]],
+  ["第四部　大きさと安さと勢いと振れ方",[["t","小型株は高い","1月の別名"],["o","サイズ効果は1月に集中する","公表されて減った"],["t","割安株は高い","決められない"],
+    ["n","バリュー効果は1月に集中する","反転したので取り下げ"],["t","上がる株は上がり続ける","決められない"],["o","直前1か月は戻る","残っている"],
+    ["x","2年から5年前は戻る","割安株の別名"],["t","低ボラ株のほうが高い","決められない"],["o","低ボラ株はリスクに対して高い","残っている"]]]];
+// the verdict marks drawn as the same-sized shapes (the font's ○△× come out in different sizes)
+const SHAPE={o:'<circle cx="8" cy="8" r="6"/>',t:'<path d="M8 2.2 14.2 13.4H1.8Z"/>',x:'<path d="M3 3 13 13M13 3 3 13"/>',n:'<path d="M2.5 8h11"/>'};
+const MARK={};for(const k in SHAPE)MARK[k]=`<svg class="mk" viewBox="0 0 16 16" width="15" height="15" aria-label="${{o:"○",t:"△",x:"×",n:"判定なし"}[k]}">${SHAPE[k]}</svg>`;
+const BOOKS={vix:["VIXの声を聴け","https://amzn.asia/d/0hrhh1Ny","icons/book-vix.jpg"],anomaly:["相場のアノマリーを斬る","https://amzn.asia/d/0boQWl0D","icons/book-anomaly.jpg"]};
+function renderBooks(){
+  document.querySelectorAll(".books").forEach(el=>{el.innerHTML=`<div class="ph"><h2>関連書籍</h2></div>`+el.dataset.books.split(",").map(k=>{const[b,url,cv]=BOOKS[k];
+    return `<a class="bk" href="${url}" target="_blank" rel="noopener"><img src="${cv}" alt="" width="44" height="64"><div><b>『${b}』</b><span>Amazon で見る</span></div><em>›</em></a>`}).join("")});
+}
+function renderAnomaly(){
+  const all=ANOMALY.flatMap(g=>g[1]),n=v=>all.filter(a=>a[0]===v).length;
+  $("anomaly").innerHTML=`<div class="ph"><h2>38の通説</h2><span class="asof">『相場のアノマリーを斬る』の判定</span></div>
+    <div class="tally"><span>${MARK.o}<b>${n("o")}</b></span><span>${MARK.t}<b>${n("t")}</b></span><span>${MARK.x}<b>${n("x")}</b></span><span>判定なし<b>${n("n")}</b></span></div>`+
+    ANOMALY.map(([g,xs])=>`<div class="grp">${g}</div>`+xs.map(([v,c,f])=>`<div class="an"><i class="v v${v}">${MARK[v]}</i><div><b>${c}</b><span>${f}</span></div></div>`).join("")).join("");
+}
 // the scenes the morning can fall into: [act index, name, what is happening, biases, words]
 const SCENES={
   calm:[0,"平穏","VIXは静かだ。静かな時間の方が圧倒的に長い。だからこそ人は忘れ、備えを怠る。待つことと、緩むことは違う。",["recency","planning"],[4,5,25,26,3,29,30,21,15,20]],
@@ -230,7 +276,7 @@ function renderKoyomi(n){
   const K=MindCalendar.today(n);
   $("koyomi").innerHTML=`<div class="ph"><h2>今日の暦</h2><span class="asof">『相場のアノマリーを斬る』</span></div>`+
     (K.trading?"":`<p class="kyu">米国市場は休場</p>`)+
-    (K.items.length?K.items.map(k=>`<div class="ky"><b class="v v${k.v}">${MindCalendar.V[k.v]}</b><div><span>${k.when}</span><p>${k.claim}<i>${k.fate}</i></p></div></div>`).join(""):`<p class="kyu">今日に当たる通説はない</p>`);
+    (K.items.length?K.items.map(k=>`<div class="ky"><b class="v v${k.v}">${MARK[k.v]}</b><div><span>${k.when} · ${k.fate}</span><p>${k.claim}</p></div></div>`).join(""):`<p class="kyu">今日に当たる通説はない</p>`);
 }
 function render(J){
   const S=SCENES[J.key],[ai,name,desc,biases,words]=S,act=ACTS[ai];
@@ -266,11 +312,13 @@ function renderRef(words=[],biases=[],ai=-1){
 
 function renderTabs(){
   document.querySelectorAll("#tabs button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.tab===state.tab));
-  ["today","words","biases"].forEach(k=>$("t-"+k).hidden=state.tab!==k);
+  ["today","words","biases","anomaly"].forEach(k=>$("t-"+k).hidden=state.tab!==k);
 }
 $("tabs").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;state.tab=b.dataset.tab;store.set("tab",state.tab);renderTabs();window.scrollTo(0,0)});
 renderTabs();
 renderRef();
+renderAnomaly();
+renderBooks();
 load().then(D=>render(judge(D))).catch(e=>{$("scene").innerHTML=`<div class="empty">データを読み込めませんでした</div>`;console.error(e)});
 if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});
 </script>
