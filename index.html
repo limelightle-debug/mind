@@ -94,6 +94,7 @@ h1{margin:0;font-size:21px;font-weight:800;letter-spacing:.04em;line-height:1.15
 .act h3 small{font-weight:600;font-size:11px;color:var(--muted);margin-left:6px}
 .act{padding:10px 0;border-top:1px solid var(--line)}
 .act:first-of-type{border-top:0;padding-top:2px}
+.ph+.act{border-top:0;padding-top:2px}
 .act.on>h3{color:#fff}
 .bias.cur h3{color:#fff}
 .bias.cur h3::after{content:"注意";display:inline-block;font-size:10px;font-weight:800;color:#fff;background:var(--red);border-radius:4px;padding:1px 5px;margin-left:6px;vertical-align:2px}
@@ -126,7 +127,7 @@ h1{margin:0;font-size:21px;font-weight:800;letter-spacing:.04em;line-height:1.15
 </div>
 <script src="engine.js"></script>
 <script>
-const APP_VER="mind-v5";
+const APP_VER="mind-v6";
 const $=id=>document.getElementById(id);
 const DATA_BASE="/mri-app/data/";
 
@@ -239,11 +240,10 @@ function render(J){
   renderRef(words,biases,ai);
 }
 function renderRef(words=[],biases=[],ai=-1){
-  const on=new Set(words);
-  $("words").innerHTML=`<div class="ph"><h2>30の言葉</h2><span class="asof">${words.length?"赤い番号が今の局面の言葉":""}</span></div>`+
-    WORDS.map(([g,ws])=>`<div class="grp">${g}</div>`+ws.map(([n,t])=>`<p class="${on.has(n)?"on":""}"><i>${n}</i>${t}</p>`).join("")).join("");
-  $("acts").innerHTML=`<div class="ph"><h2>四幕と10のバイアス</h2><span class="asof">VIXイベントの時系列</span></div>`+
-    ACTS.map((a,j)=>`<div class="act${j===ai?" on":""}"><h3>${a[0]}　${a[1]}<small>${a[2]}</small></h3>${a[3].map(b=>`<div class="bias${biases.includes(b)?" cur":""}"><h3>${BIAS[b][0]}</h3><p>${BIAS[b][1]}</p></div>`).join("")}</div>`).join("");
+  $("words").innerHTML=`<div class="ph"><h2>30の言葉</h2></div>`+
+    WORDS.map(([g,ws])=>`<div class="grp">${g}</div>`+ws.map(([n,t])=>`<p><i>${n}</i>${t}</p>`).join("")).join("");
+  $("acts").innerHTML=`<div class="ph"><h2>四幕と10のバイアス</h2></div>`+
+    ACTS.map((a,j)=>`<div class="act"><h3>${a[0]}　${a[1]}<small>${a[2]}</small></h3>${a[3].map(b=>`<div class="bias"><h3>${BIAS[b][0]}</h3><p>${BIAS[b][1]}</p></div>`).join("")}</div>`).join("");
 }
 
 function renderTabs(){
