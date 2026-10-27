@@ -120,7 +120,7 @@ h1{margin:0;font-size:21px;font-weight:800;letter-spacing:.04em;line-height:1.15
 </div>
 <script src="engine.js"></script>
 <script>
-const APP_VER="mind-v1";
+const APP_VER="mind-v2";
 const $=id=>document.getElementById(id);
 const DATA_BASE="/mri-app/data/";
 
@@ -157,13 +157,13 @@ const ACTS=[
 
 // the scenes the morning can fall into: [act index, name, what is happening, biases, words]
 const SCENES={
-  calm:[0,"平穏","VIXは静かだ。静かな時間の方が圧倒的に長い。だからこそ人は忘れ、備えを怠る。待つことと、緩むことは違う。",["recency","planning"],[4,5,25,26,3,29,30,21,15]],
+  calm:[0,"平穏","VIXは静かだ。静かな時間の方が圧倒的に長い。だからこそ人は忘れ、備えを怠る。待つことと、緩むことは違う。",["recency","planning"],[4,5,25,26,3,29,30,21,15,20]],
   after:[0,"余震","前回のVIXイベントから1年以内。余震フェーズでは株価が戻り、人は「どうせ戻る」と学習する。その油断を、次の本震が回収する。",["recency","bandwagon"],[18,6,3,26,12,21]],
   balloon:[0,"風船","風船が見えている。膨らんでいるという事実だけで、量を調整する理由になる。観察が行動を変える唯一の場面だ。",["bandwagon","overconf"],[7,9,10,18,17,6,8]],
   needle:[1,"針","VIXが+1σを超えた。最初の反応は「一時的な調整だ」。異常を異常と認めない間に、針は深く刺さっていく。",["normalcy","confirm"],[12,16,13,3,6,1]],
-  panic:[2,"パニック","VIXイベント発生中。VIXが+2σを超えた。全員が売っている。その瞬間に大底は形成される。",["herd"],[1,2,11,24,13,7]],
+  panic:[2,"パニック","VIXイベント発生中。VIXが+2σを超えた。全員が売っている。その瞬間に大底は形成される。",["herd"],[1,2,11,24,13,7,27,28]],
   rebound:[3,"コツン","5日LWMAが10日LWMAを下回った。恐怖の頂点は過ぎた。最後の壁は、自分の中にある。",["loss","anchor","status"],[22,23,19,8,14,2]],
-  quiet:[3,"静かな底","VIXイベントなしに MRI が BUY を示している。2022年のように、風船は針で割れずに萎むこともある。",["loss","anchor","status"],[23,19,22,25,8,5]]};
+  quiet:[3,"静かな底","VIXイベントなしに MRI が BUY を示している。2022年のように、風船は針で割れずに萎むこともある。",["loss","anchor","status"],[23,19,22,25,8,5,27,28]]};
 
 const store={get:(k,d)=>{try{return localStorage.getItem("mind."+k)??d}catch(e){return d}},set:(k,v)=>{try{localStorage.setItem("mind."+k,v)}catch(e){}}};
 const state={tab:store.get("tab","today")};
