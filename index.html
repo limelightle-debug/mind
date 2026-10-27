@@ -153,7 +153,7 @@ h1{margin:0;font-size:21px;font-weight:800;letter-spacing:.04em;line-height:1.15
 <script src="engine.js"></script>
 <script src="calendar.js"></script>
 <script>
-const APP_VER="mind-v15";
+const APP_VER="mind-v16";
 const $=id=>document.getElementById(id);
 const DATA_BASE="/mri-app/data/";
 // language: shared with the other apps on this site ("lang" in localStorage)
@@ -273,6 +273,8 @@ function judge({vix,days,mri}){
   return {key,day,s,approx:!!days[i][2],asof:mri.updatedAt,sig,mriNow,last,cur,sinceLast:last?monthsBetween(last.start,day):null};
 }
 
+// the verdicts come from the final chapter of 『相場のアノマリーを斬る』; cited by chapter like the other panels
+const FINAL=()=>L("終章「4つでは足りなかった」","Final ch. · Four weren't enough");
 const jstTime=iso=>{const t=new Date(Date.parse(iso)+9*36e5);return `${t.getUTCMonth()+1}/${t.getUTCDate()} ${t.getUTCHours()}:${String(t.getUTCMinutes()).padStart(2,"0")}`};
 const dayIndex=d=>Math.floor(toDate(d).getTime()/864e5);
 const ph=(h,asof="")=>`<div class="ph"><h2>${h}</h2>${asof?`<span class="asof">${asof}</span>`:""}</div>`;
@@ -281,7 +283,7 @@ const ph=(h,asof="")=>`<div class="ph"><h2>${h}</h2>${asof?`<span class="asof">$
 function renderKoyomi(n){
   const open=MindCalendar.isTrading(n),day=open?n:MindCalendar.nextTrading(n),K=MindCalendar.today(day);
   const d=toDate(day),md=`${d.getMonth()+1}/${d.getDate()}`,wk=L("日月火水木金土"[d.getDay()],["Sun","Mon","Tue","Wed","Thu","Fri","Sat"][d.getDay()]);
-  $("koyomi").innerHTML=ph(open?L("今日の暦","Today's calendar"):L(`${md}（${wk}）の暦`,`Calendar for ${wk} ${md}`),bookName("anomaly"))+
+  $("koyomi").innerHTML=ph(open?L("今日の暦","Today's calendar"):L(`${md}（${wk}）の暦`,`Calendar for ${wk} ${md}`),FINAL())+
     (open?"":`<p class="kyu">${L("今日は米国市場が休場。次の取引日の暦","US market closed today. The next trading day:")}</p>`)+
     (K.items.length?K.items.map(k=>`<div class="ky"><b class="v v${k.v}">${MARK[k.v]}</b><div><span>${P(k.when)} · ${P(k.fate)}</span><p>${P(k.claim)}</p></div></div>`).join(""):`<p class="kyu">${L("当たる通説はない","No claims fall on this day")}</p>`);
 }
@@ -316,7 +318,7 @@ function renderRef(){
   $("acts").innerHTML=ph(L("四幕と10のバイアス","Four acts, ten biases"))+
     ACTS.map(a=>`<div class="act"><h3>${P(a[0])}　${P(a[1])}<small>${P(a[2])}</small></h3>${a[3].map(b=>`<div class="bias"><h3>${BN(b)}</h3><p>${BT(b)}</p></div>`).join("")}</div>`).join("");
   const all=ANOMALY.flatMap(g=>g[1]),cnt=v=>all.filter(a=>a[0]===v).length;
-  $("anomaly").innerHTML=ph(L("38の通説","38 claims"),bookName("anomaly"))+
+  $("anomaly").innerHTML=ph(L("38の通説","38 claims"),FINAL())+
     `<div class="tally"><span>${MARK.o}<b>${cnt("o")}</b></span><span>${MARK.t}<b>${cnt("t")}</b></span><span>${MARK.x}<b>${cnt("x")}</b></span><span>${L("判定なし","No verdict")}<b>${cnt("n")}</b></span></div>`+
     ANOMALY.map(([g,xs])=>`<div class="grp">${P(g)}</div>`+xs.map(([v,c,f])=>`<div class="an"><i class="v v${v}">${MARK[v]}</i><div><b>${P(c)}</b><span>${P(F[f])}</span></div></div>`).join("")).join("");
   document.querySelectorAll(".books").forEach(el=>{el.innerHTML=ph(L("関連書籍","Related books"))+el.dataset.books.split(",").map(k=>{const[,url,cv]=BK(k);
