@@ -155,7 +155,7 @@ h1{margin:0;font-size:21px;font-weight:800;letter-spacing:.04em;line-height:1.15
 <script src="engine.js"></script>
 <script src="calendar.js"></script>
 <script>
-const APP_VER="mind-v9";
+const APP_VER="mind-v10";
 const $=id=>document.getElementById(id);
 const DATA_BASE="/mri-app/data/";
 
@@ -284,7 +284,7 @@ function render(J){
   renderKoyomi(tn);
   $("date").innerHTML=`<b>${dt.getMonth()+1}<i>月</i>${dt.getDate()}<i>日</i></b><span>${dt.getFullYear()}年　${"日月火水木金土"[dt.getDay()]}曜日</span>`;
   const s=J.s,sigTxt=[J.sig.tbub?`バブル Lv.${J.sig.tbub}`:"",J.sig.sell?`SELL ${[0,80,85,90][J.sig.sell]}`:"",J.sig.buy?`BUY ${[0,7.5,5,2.5][J.sig.buy]}`:""].filter(Boolean);
-  $("scene").innerHTML=`<div class="ph"><h2>今日の局面</h2><span class="asof">第五章「動けない理由」</span></div>
+  $("scene").innerHTML=`<div class="ph"><h2>今の局面</h2><span class="asof">第五章「動けない理由」</span></div>
     <div class="acts">${ACTS.map((a,j)=>`<div class="${j===ai?"on":""}"><b>${a[0]}</b>${a[4]}</div>`).join("")}</div>
     <div class="scene"><small>${act[0]}　${act[1]}</small>${name}</div>
     <p class="sdesc">${desc}</p>
