@@ -152,7 +152,7 @@ h1{margin:0;font-size:21px;font-weight:800;letter-spacing:.04em;line-height:1.15
 <script src="engine.js"></script>
 <script src="calendar.js"></script>
 <script>
-const APP_VER="mind-v11";
+const APP_VER="mind-v12";
 const $=id=>document.getElementById(id);
 const DATA_BASE="/mri-app/data/";
 // language: shared with the other apps on this site ("lang" in localStorage)
@@ -299,8 +299,8 @@ function renderToday(J){
       <div><span>MRI</span><b>${(J.mriNow*100).toFixed(1)}</b>${sigTxt.length?sigTxt.map(x=>`<small>${x}</small>`).join(""):`<small>${L("シグナルなし","No signal")}</small>`}</div>
       <div><span>${L("VIXイベント","VIX event")}</span><b>${J.cur?L("発生中","Under way"):J.sinceLast+`<small style='display:inline'>${L(" ヶ月前"," mo ago")}</small>`}</b><small>${J.cur?fmtD(J.cur.start)+"〜":J.last?fmtD(J.last.start):""}</small></div>
     </div>`;
-  // the word and the bias of the day turn over each day among the scene's own
-  const di=dayIndex(J.day),main=W[words[di%words.length]],b=biases[di%biases.length];
+  // the word and the bias of the day turn over at midnight with the date, among the scene's own
+  const di=dayIndex(tn),main=W[words[di%words.length]],b=biases[di%biases.length];
   $("word").innerHTML=ph(L("今日の言葉","Word of the day"),L("第四章「30の言葉」","Ch. 4 · 30 words"))+
     `<p class="word">${L("「","“")}${P(main.t)}${L("」","”")}</p><div class="wmeta"><b>${main.n}</b>　${P(main.g)}</div>`;
   $("bias").innerHTML=ph(L("気をつけるバイアス","Bias to watch"),P(act[0]))+`<div class="bias"><h3>${BN(b)}</h3><p>${BT(b)}</p></div>`;
