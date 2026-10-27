@@ -119,6 +119,6 @@ function today(n){
   const order={o:0,t:1,x:2};out.sort((a,b)=>order[a.v]-order[b.v]);
   return {trading,items:out};
 }
-root.MindCalendar={today,isTrading,retro,retroSpan,nearestPhase,holidays,V};
+root.MindCalendar={today,isTrading,nextTrading,retro,retroSpan,nearestPhase,holidays,V};
 if(typeof module!=="undefined")module.exports=root.MindCalendar;
 })(typeof window!=="undefined"?window:globalThis);

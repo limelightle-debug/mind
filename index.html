@@ -152,7 +152,7 @@ h1{margin:0;font-size:21px;font-weight:800;letter-spacing:.04em;line-height:1.15
 <script src="engine.js"></script>
 <script src="calendar.js"></script>
 <script>
-const APP_VER="mind-v13";
+const APP_VER="mind-v14";
 const $=id=>document.getElementById(id);
 const DATA_BASE="/mri-app/data/";
 // language: shared with the other apps on this site ("lang" in localStorage)
@@ -275,11 +275,13 @@ function judge({vix,days,mri}){
 const dayIndex=d=>Math.floor(toDate(d).getTime()/864e5);
 const ph=(h,asof="")=>`<div class="ph"><h2>${h}</h2>${asof?`<span class="asof">${asof}</span>`:""}</div>`;
 // 今日の暦: the calendar claims from 『相場のアノマリーを斬る』 that fall on today's US session, with the book's verdict
+// on a day the US market is closed (weekends, holidays) it shows the next trading day's calendar instead
 function renderKoyomi(n){
-  const K=MindCalendar.today(n);
-  $("koyomi").innerHTML=ph(L("今日の暦","Today's calendar"),bookName("anomaly"))+
-    (K.trading?"":`<p class="kyu">${L("米国市場は休場","US market closed")}</p>`)+
-    (K.items.length?K.items.map(k=>`<div class="ky"><b class="v v${k.v}">${MARK[k.v]}</b><div><span>${P(k.when)} · ${P(k.fate)}</span><p>${P(k.claim)}</p></div></div>`).join(""):`<p class="kyu">${L("今日に当たる通説はない","No claims fall on today")}</p>`);
+  const open=MindCalendar.isTrading(n),day=open?n:MindCalendar.nextTrading(n),K=MindCalendar.today(day);
+  const d=toDate(day),md=`${d.getMonth()+1}/${d.getDate()}`,wk=L("日月火水木金土"[d.getDay()],["Sun","Mon","Tue","Wed","Thu","Fri","Sat"][d.getDay()]);
+  $("koyomi").innerHTML=ph(open?L("今日の暦","Today's calendar"):L(`${md}（${wk}）の暦`,`Calendar for ${wk} ${md}`),bookName("anomaly"))+
+    (open?"":`<p class="kyu">${L("今日は米国市場が休場。次の取引日の暦","US market closed today. The next trading day:")}</p>`)+
+    (K.items.length?K.items.map(k=>`<div class="ky"><b class="v v${k.v}">${MARK[k.v]}</b><div><span>${P(k.when)} · ${P(k.fate)}</span><p>${P(k.claim)}</p></div></div>`).join(""):`<p class="kyu">${L("当たる通説はない","No claims fall on this day")}</p>`);
 }
 function renderToday(J){
   // the day turns over at 7:00 Japan time (after the US close), like a morning fortune; before that it is still yesterday
