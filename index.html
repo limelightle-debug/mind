@@ -72,14 +72,13 @@ h1{margin:0;font-size:21px;font-weight:800;letter-spacing:.04em;line-height:1.15
 .kv small{display:block;font-family:var(--f-tick);font-stretch:82%;font-size:11.5px;color:var(--ink2);white-space:nowrap}
 .kv b.j{font-family:var(--f-body);font-stretch:100%;font-size:15px;line-height:1.55}
 /* the word */
-.word{margin:4px 0 4px;font-weight:800;font-size:18px;line-height:1.75;letter-spacing:.02em}
+.word{margin:2px 0 0;font-weight:700;font-size:16px;line-height:1.7}
 .wmeta{font-size:12px;color:var(--muted)}
-.wmeta b{font-family:var(--f-tick);font-stretch:82%;color:var(--ink2)}
 /* biases */
 .bias{padding:10px 0;border-top:1px solid var(--line)}
 .bias:first-of-type{border-top:0;padding-top:2px}
 .ph+.bias,.grp+.bias{border-top:0;padding-top:2px}
-.bias h3{margin:0 0 3px;font-size:15px;font-weight:800}
+.bias h3{margin:0 0 3px;font-size:16px;font-weight:700;line-height:1.6}
 .bias h3 i{font-style:normal;font-size:10.5px;font-weight:700;color:var(--muted);margin-left:6px;letter-spacing:.04em}
 .bias p{margin:0;font-size:14px;line-height:1.7;color:var(--ink2)}
 .cap{display:block;font-size:12px;color:var(--muted);margin:2px 0 1px}
@@ -90,13 +89,13 @@ h1{margin:0;font-size:21px;font-weight:800;letter-spacing:.04em;line-height:1.15
 .ky .v{flex:none;width:22px;padding-top:15px;text-align:center;font-family:"Hiragino Sans",var(--f-body);font-size:15px;font-weight:700;line-height:1.5}
 .ky .vo{color:var(--ink)}.ky .vt{color:var(--ink2)}.ky .vx{color:var(--muted)}
 .ky span{display:block;font-size:12px;color:var(--muted)}
-.ky p{margin:1px 0 0;font-size:15px;font-weight:700;line-height:1.5}
+.ky p{margin:1px 0 0;font-size:16px;font-weight:700;line-height:1.6}
 .kyu{margin:0 0 6px;font-size:13px;color:var(--muted)}
 .cure{margin-top:10px;padding:10px 12px;border-radius:10px;background:#0d0d22;border:1px solid var(--line);font-size:13px;line-height:1.7;color:var(--ink2)}
 /* reference lists */
 .grp{margin:16px 0 4px;font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.06em}
 .grp:first-of-type{margin-top:0}
-.ref p{margin:0;padding:9px 0;border-top:1px solid var(--line);font-size:15px;font-weight:700;line-height:1.6}
+.ref p{margin:0;padding:9px 0;border-top:1px solid var(--line);font-size:16px;font-weight:700;line-height:1.6}
 .grp+p{border-top:0}
 .ref p i{display:block;font-style:normal;font-weight:400;font-size:12px;color:var(--muted)}
 .ref p.on{color:#fff}
@@ -114,7 +113,7 @@ h1{margin:0;font-size:21px;font-weight:800;letter-spacing:.04em;line-height:1.15
 .grp+.an{border-top:0}
 .an .v{flex:none;width:22px;text-align:center;font-family:"Hiragino Sans",var(--f-body);font-size:15px;font-weight:700;line-height:1.5}
 .an .vo{color:var(--ink)}.an .vt{color:var(--ink2)}.an .vx,.an .vn{color:var(--muted)}
-.an b{display:block;font-size:15px;font-weight:700;line-height:1.5}
+.an b{display:block;font-size:16px;font-weight:700;line-height:1.6}
 .an span{display:block;font-size:12px;color:var(--muted)}
 .mk{display:inline-block;vertical-align:-2px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linejoin:round;stroke-linecap:round}
 .tally .mk{margin-right:2px}
@@ -165,7 +164,7 @@ h1{margin:0;font-size:21px;font-weight:800;letter-spacing:.04em;line-height:1.15
 <script src="engine.js"></script>
 <script src="calendar.js"></script>
 <script>
-const APP_VER="mind-v24";
+const APP_VER="mind-v25";
 const $=id=>document.getElementById(id);
 const DATA_BASE="/mri-app/data/";
 // language: shared with the other apps on this site ("lang" in localStorage)
@@ -359,7 +358,7 @@ function renderToday(J){
   // the word and the bias of the day turn over with the date (7:00 Japan time), among the scene's own
   const di=dayIndex(tn),main=W[words[di%words.length]],b=biases[di%biases.length];
   $("word").innerHTML=ph(L("今日の言葉","Word of the day"),VIXCH(4))+
-    `<p class="word">${L("「","“")}${P(main.t)}${L("」","”")}</p><div class="wmeta"><b>${main.n}</b>　${P(main.g)}</div>`;
+    `<div class="wmeta">No. ${main.n}　${P(main.g)}</div><p class="word">${L("「","“")}${P(main.t)}${L("」","”")}</p>`;
   $("bias").innerHTML=ph(L("気をつけるバイアス","Bias to watch"),VIXCH(5))+`<div class="bias"><h3>${BN(b)}</h3><p>${BT(b)}</p></div>`;
   // the question of the day, with one of the eight records as its example
   const tp=SCENE_TOI[J.key][di%SCENE_TOI[J.key].length],q=TOI[tp[0]],t=TEACH[tp[1]];
@@ -370,7 +369,7 @@ function renderToday(J){
   // the principle comes from the final chapter's list; the line beneath it from the chapter that shows it
   const fromCh1=h[6]===1,same=fromCh1||h[4][0]==="終章";
   $("heiho").innerHTML=ph(L("今日の兵法","Strategy of the day"),`${bookName("heiho")}${fromCh1?L("第一章"," · Ch. 1"):L("終章"," · Final ch.")}`)+
-    `<div class="bias"><h3>${L(h[0],h[1])}</h3>${same?"":`<span class="cap">${L(`${h[4][0]}「${h[5]}」`,h[4][1])}</span>`}<p>${L(h[2],h[3])}</p></div>`;
+    `<div class="bias">${same?"":`<span class="cap">${L(`${h[4][0]}「${h[5]}」`,h[4][1])}</span>`}<h3>${L(h[0],h[1])}</h3><p>${L(h[2],h[3])}</p></div>`;
 }
 function renderRef(){
   $("words").innerHTML=ph(L("30の言葉","30 words"),VIXCH(4))+
@@ -384,7 +383,7 @@ function renderRef(){
     PARTS.map(([g,ks])=>`<div class="grp">${P(g)}</div>`+ks.map(k=>{const t=TEACH[k];return `<div class="bias"><span class="cap">${L(`第${KAN[t[0]]}章「${t[1]}」`,`Ch. ${t[0]}`)}</span><p>${L(t[2],t[3])}</p></div>`}).join("")).join("");
   const HG=[[["繰り返し現れたもの","What kept recurring"],["makenai","basho","kachu","yamedoki","tettai"]],[["構えあって構えなし","A stance, and no stance"],["kamae","kakushin"]],[["第一部　宮本武蔵","Part 1 · Miyamoto Musashi"],["tateki"]]];
   $("heiholist").innerHTML=ph(L("兵法","Strategy"),bookName("heiho"))+
-    HG.map(([g,ks])=>`<div class="grp">${P(g)}</div>`+ks.map(k=>{const h=HEIHO[k],same=h[6]===1||h[4][0]==="終章",cap=k==="basho"?L("第七章「桶狭間」・第八章「官渡」","Ch. 7, Ch. 8"):L(`${h[4][0]}「${h[5]}」`,h[4][1]);return `<div class="bias"><h3>${L(h[0],h[1])}</h3>${same?"":`<span class="cap">${cap}</span>`}<p>${L(h[2],h[3])}</p></div>`}).join("")).join("");
+    HG.map(([g,ks])=>`<div class="grp">${P(g)}</div>`+ks.map(k=>{const h=HEIHO[k],same=h[6]===1||h[4][0]==="終章",cap=k==="basho"?L("第七章「桶狭間」・第八章「官渡」","Ch. 7, Ch. 8"):L(`${h[4][0]}「${h[5]}」`,h[4][1]);return `<div class="bias">${same?"":`<span class="cap">${cap}</span>`}<h3>${L(h[0],h[1])}</h3><p>${L(h[2],h[3])}</p></div>`}).join("")).join("");
   const all=ANOMALY.flatMap(g=>g[1]),cnt=v=>all.filter(a=>a[0]===v).length;
   $("anomaly").innerHTML=ph(L("38の通説","38 claims"),FINAL())+
     `<div class="tally"><span>${MARK.o}<b>${cnt("o")}</b></span><span>${MARK.t}<b>${cnt("t")}</b></span><span>${MARK.x}<b>${cnt("x")}</b></span><span>${L("判定なし","No verdict")}<b>${cnt("n")}</b></span></div>`+
