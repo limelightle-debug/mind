@@ -165,7 +165,7 @@ h1{margin:0;font-size:21px;font-weight:800;letter-spacing:.04em;line-height:1.15
 <script src="calendar.js"></script>
 <script src="words.js"></script>
 <script>
-const APP_VER="mind-v27";
+const APP_VER="mind-v28";
 const $=id=>document.getElementById(id);
 const DATA_BASE="/mri-app/data/";
 // language: shared with the other apps on this site ("lang" in localStorage)
@@ -276,7 +276,7 @@ function judge({vix,days,mri}){
   const up=(v,t)=>t.filter(x=>v>=x).length,dn=(v,t)=>t.filter(x=>v<=x).length;
   const tb=MindEngine.latch(R,r=>up(r[6],[.841345,.97725,.99865]),r=>r[6]<=.5,CERT.tbub);
   const se=MindEngine.latch(R,r=>up(r[7],[.8,.85,.9]),r=>r[7]<=.5,CERT.sell);
-  const bu=MindEngine.latch(R,r=>dn(r[7],[.075,.05,.025]),r=>r[7]>=.5,CERT.buy);
+  const bu=MindEngine.latch(R,r=>dn(r[7],[.08,.06,.04]),r=>r[7]>=.5,CERT.buy);
   const k=R.length-1,mriNow=R[k][7],sig={tbub:tb[k],sell:se[k],buy:bu[k]};
   const done=ev.filter(e=>e.end),last=done[done.length-1],cur=ev.find(e=>!e.end);
   const recentNeedle=st.slice(-5).some(x=>x.high>=x.s1);
@@ -317,7 +317,7 @@ function renderToday(J){
   renderKoyomi(tn);
   if(!J)return;
   const [ai,name,desc,biases,words]=SCENES[J.key],act=ACTS[ai],s=J.s;
-  const sigTxt=[J.sig.tbub?`${L("バブル","Bubble")} Lv.${J.sig.tbub}`:"",J.sig.sell?`SELL ${[0,80,85,90][J.sig.sell]}`:"",J.sig.buy?`BUY ${[0,7.5,5,2.5][J.sig.buy]}`:""].filter(Boolean);
+  const sigTxt=[J.sig.tbub?`${L("バブル","Bubble")} Lv.${J.sig.tbub}`:"",J.sig.sell?`SELL ${[0,80,85,90][J.sig.sell]}`:"",J.sig.buy?`BUY ${[0,8,6,4][J.sig.buy]}`:""].filter(Boolean);
   $("scene").innerHTML=ph(L("今の局面","Where we are"),VIXCH(5))+
     `<div class="acts">${ACTS.map((a,j)=>`<div class="${j===ai?"on":""}"><b>${P(a[0])}</b>${P(a[4])}</div>`).join("")}</div>
     <div class="scene"><small>${P(act[0])}　${P(act[1])}</small>${P(name)}</div>
