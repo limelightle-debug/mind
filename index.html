@@ -165,7 +165,7 @@ h1{margin:0;font-size:21px;font-weight:800;letter-spacing:.04em;line-height:1.15
 <script src="calendar.js"></script>
 <script src="words.js"></script>
 <script>
-const APP_VER="mind-v28";
+const APP_VER="mind-v29";
 const $=id=>document.getElementById(id);
 const DATA_BASE="/mri-app/data/";
 // language: shared with the other apps on this site ("lang" in localStorage)
@@ -367,7 +367,7 @@ function renderRef(){
 const TABS={today:["今日","Today"],ref:["参照","Reference"]};
 const SUBS={words:["言葉","Words"],toi:["問い","Questions"],heiho:["兵法","Strategy"],biases:["バイアス","Biases"],anomaly:["アノマリー","Anomalies"]};
 function renderTabs(){
-  document.querySelectorAll("#tabs button").forEach(b=>{b.textContent=P(TABS[b.dataset.tab]);b.setAttribute("aria-pressed",b.dataset.tab===state.tab)});
+  document.querySelectorAll("#tabs [data-tab]").forEach(b=>{b.textContent=P(TABS[b.dataset.tab]);b.setAttribute("aria-pressed",b.dataset.tab===state.tab)});
   document.querySelectorAll("#subtabs button").forEach(b=>{b.textContent=P(SUBS[b.dataset.sub]);b.setAttribute("aria-pressed",b.dataset.sub===state.sub)});
   $("subtabs").hidden=state.tab!=="ref";
   $("t-today").hidden=state.tab!=="today";
@@ -391,5 +391,7 @@ document.addEventListener("visibilitychange",()=>{if(document.hidden)return;if(f
 refresh();
 if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});
 </script>
+<script src="../fear-index/suite.js"></script>
+<script>window.Suite&&Suite.mount({hide:["main","#subtabs"],after:"main"})</script>
 </body>
 </html>
