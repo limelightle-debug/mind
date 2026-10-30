@@ -19,7 +19,7 @@
 <style>
 :root{
   /* the same navy palette as the other apps */
-  --bg:#050506; --panel:#0e0e11; --ink:#f4f4f6; --ink2:#cfcfd6; --muted:#8c8c96; --line:#25252b; --chip:#17171b; --accent:#ff2d55;
+  --bg:#050506; --panel:#0e0e11; --ink:#f4f4f6; --ink2:#cfcfd6; --muted:#8c8c96; --line:#25252b; --chip:#17171b; --accent:#2ee6ff;
   --red:#ca2323; --up:#4CAF50; --dn:#F44336; --amber:#FF9800;
   --f-tick:"Archivo","Helvetica Neue",Arial,sans-serif;
   --f-body:"LINE Seed JP","Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",system-ui,sans-serif;
@@ -60,8 +60,8 @@ h1{margin:0;font-size:21px;font-weight:800;letter-spacing:.04em;line-height:1.15
 .acts{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin:2px 0 12px}
 .acts div{position:relative;text-align:center;padding:6px 2px 5px;border-radius:8px;background:#0d0d22;border:1px solid var(--line);color:var(--muted);font-size:10.5px;line-height:1.3}
 .acts div b{display:block;font-size:11px;color:var(--ink2);font-weight:700}
-.acts div.on{background:var(--red);border-color:var(--red);color:#fff}
-.acts div.on b{color:#fff}
+.acts div.on{background:var(--accent);border-color:var(--accent);color:#04161a}
+.acts div.on b{color:#04161a}
 .scene{font-size:20px;font-weight:800;letter-spacing:.04em;line-height:1.25}
 .scene small{display:block;font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.06em;margin-bottom:2px}
 .sdesc{margin:6px 0 0;color:var(--ink2);font-size:14px;line-height:1.65}
@@ -99,7 +99,7 @@ h1{margin:0;font-size:21px;font-weight:800;letter-spacing:.04em;line-height:1.15
 .grp+p{border-top:0}
 .ref p i{display:block;font-style:normal;font-weight:400;font-size:12px;color:var(--muted)}
 .ref p.on{color:#fff}
-.ref p.on i{color:var(--red)}
+.ref p.on i{color:var(--accent)}
 .act>h3{margin:16px 0 4px;font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.06em}
 .act>h3 small{display:block;font-size:12px;font-weight:400;letter-spacing:0;margin-top:1px}
 .act{padding:0}
@@ -108,7 +108,7 @@ h1{margin:0;font-size:21px;font-weight:800;letter-spacing:.04em;line-height:1.15
 .act.on>h3{color:#fff}
 .bias.cur h3{color:#fff}
 .bias.cur h3::after{content:"注意";display:inline-block;font-size:10px;font-weight:800;color:#fff;background:var(--red);border-radius:4px;padding:1px 5px;margin-left:6px;vertical-align:2px}
-.act.on>h3::before{content:"今";display:inline-block;font-size:10px;font-weight:800;color:#fff;background:var(--red);border-radius:4px;padding:1px 5px;margin-right:6px;vertical-align:2px}
+.act.on>h3::before{content:"今";display:inline-block;font-size:10px;font-weight:800;color:#04161a;background:var(--accent);border-radius:4px;padding:1px 5px;margin-right:6px;vertical-align:2px}
 .an{display:flex;gap:12px;align-items:flex-start;padding:8px 0;border-top:1px solid var(--line)}
 .grp+.an{border-top:0}
 .an .v{flex:none;width:22px;text-align:center;font-family:"Hiragino Sans",var(--f-body);font-size:15px;font-weight:700;line-height:1.5}
@@ -165,7 +165,7 @@ h1{margin:0;font-size:21px;font-weight:800;letter-spacing:.04em;line-height:1.15
 <script src="calendar.js"></script>
 <script src="words.js"></script>
 <script>
-const APP_VER="mind-v31";
+const APP_VER="mind-v32";
 const $=id=>document.getElementById(id);
 const DATA_BASE="/mri-app/data/";
 // language: shared with the other apps on this site ("lang" in localStorage)
