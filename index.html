@@ -165,7 +165,7 @@ h1{margin:0;font-size:21px;font-weight:800;letter-spacing:.04em;line-height:1.15
 <script src="calendar.js"></script>
 <script src="words.js"></script>
 <script>
-const APP_VER="mind-v35";
+const APP_VER="mind-v36";
 const $=id=>document.getElementById(id);
 const DATA_BASE="/mri-app/data/";
 // language: shared with the other apps on this site ("lang" in localStorage)
@@ -176,6 +176,8 @@ const P=a=>Array.isArray(a)?(LANG==="en"?a[1]:a[0]):a;
 // 第四章 30の言葉 [n, ja, en]
 const {WORDS,BIAS,SCENES}=window.MindData;
 const W={};WORDS.forEach(([g,ws])=>ws.forEach(([n,ja,en])=>W[n]={n,t:[ja,en],g}));
+// 続・30の言葉 (No.31-): the same lookup, with the books each draws on
+window.MindData.MORE.forEach(([g,ws])=>ws.forEach(([n,ja,en,sc,bk])=>W[n]={n,t:[ja,en],g,bk}));
 
 const BN=b=>L(BIAS[b][0],BIAS[b][2]),BT=b=>L(BIAS[b][1],BIAS[b][3]);
 // [act, title, what happens, biases, short label]
@@ -331,9 +333,10 @@ function renderToday(J){
     </div><p class="asofl">${L(`${fmtMD(J.day)} 米国市場の引けまで`,`Through the US close of ${fmtMD(J.day)}`)}</p>`;
   // the word and the bias of the day turn over with the date (7:00 Japan time), among the scene's own
   const di=dayIndex(tn),main=W[words[di%words.length]],b=biases[di%biases.length];
-  $("word").innerHTML=ph(L("今日の言葉","Word of the day"),VIXCH(4))+
+  $("word").innerHTML=ph(L("今日の言葉","Word of the day"),main.bk?`${L("続・30の言葉","More words")}${main.bk.length?`　${L("参照 ","See ")}${main.bk.map(bookName).join(" ")}`:""}`:VIXCH(4))+
     `<div class="wmeta">No. ${main.n}　${P(main.g)}</div><p class="word">${L("「","“")}${P(main.t)}${L("」","”")}</p>`;
-  $("bias").innerHTML=ph(L("気をつけるバイアス","Bias to watch"),VIXCH(5))+`<div class="bias"><h3>${BN(b)}</h3><p>${BT(b)}</p></div>`;
+  const b2=(window.MindData.BIAS2||{})[b];
+  $("bias").innerHTML=ph(L("気をつけるバイアス","Bias to watch"),b2?`${L("その他のバイアス","Other biases")}${b2[5]?`　${L("参照 ","See ")}${bookName(b2[5])}`:""}`:VIXCH(5))+`<div class="bias"><h3>${BN(b)}</h3><p>${BT(b)}</p></div>`;
   // the question of the day, with one of the eight records as its example
   const tp=SCENE_TOI[J.key][di%SCENE_TOI[J.key].length],q=TOI[tp[0]],t=TEACH[tp[1]];
   $("toi").innerHTML=ph(L("今日の問い","Question of the day"),`${bookName("shippai")}${L("終章"," · Final ch.")}`)+
@@ -359,7 +362,7 @@ function renderRef(){
   const B2=window.MindData.BIAS2||{};
   $("acts2").hidden=!Object.keys(B2).length;
   $("acts2").innerHTML=ph(L("その他のバイアス","Other biases"),L("投資で起こる典型的なもの","Common in investing"))+
-    ACTS.map((a,i)=>{const ks=Object.keys(B2).filter(k=>B2[k][4]===i);return ks.length?`<div class="act"><h3>${P(a[0])}　${P(a[1])}</h3>${ks.map(k=>{const b=B2[k];return `<div class="bias"><h3>${L(b[0],b[2])}</h3><p>${L(b[1],b[3])}</p>${b[5]?`<span class="cap">${L("参照 ","See ")}${bookName(b[5])}</span>`:""}</div>`}).join("")}</div>`:""}).join("");
+    Object.keys(B2).map(k=>{const b=B2[k];return `<div class="bias"><h3>${L(b[0],b[2])}</h3><p>${L(b[1],b[3])}</p>${b[5]?`<span class="cap">${L("参照 ","See ")}${bookName(b[5])}</span>`:""}</div>`}).join("");
   const PARTS=[[["第一部　退場した者","Part 1 · Those forced out"],["ltcm","leo","livermore"]],[["第二部　戻ってきた者","Part 2 · Those who came back"],["burry","dalio","simons"]],[["第三部　渡さなかった者","Part 3 · Those who never handed it over"],["buffett","marks"]]];
   $("toilist").innerHTML=ph(L("四つの問い","Four questions"),`${bookName("shippai")}${L("終章"," · Final ch.")}`)+
     TOI.map((q,i)=>`<div class="an"><i class="v">${i+1}</i><div><b>${QL(q)}</b></div></div>`).join("")+
