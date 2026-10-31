@@ -37,6 +37,8 @@ const SCENES={
 const BIAS2={};  // filled one by one as each is approved
 // 続・30の言葉: new words drawn from the other five books, added one by one as each is approved
 // [[group ja, group en], [[number, ja, en, scenes, related book keys], ...]]
-const MORE=[];
+const MORE=[
+  [["平時の仕事","The work of ordinary days"],[[31,"何も起きない日が、いちばん長い。備えは、その長さに負けないためにある。","The days when nothing happens are the longest. Preparation exists so that you do not lose to their length.",["calm"],["heiho"]]]]
+];
 root.MindData={WORDS,BIAS,SCENES,BIAS2,MORE};
 })(typeof window!=="undefined"?window:globalThis);
