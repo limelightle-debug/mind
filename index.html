@@ -153,7 +153,7 @@ h1{margin:0;font-size:21px;font-weight:800;letter-spacing:.04em;line-height:1.15
       <section class="panel" id="koyomi"></section>
       <section class="panel books" data-books="vix,shippai,heiho,anomaly"></section>
     </div>
-    <div id="t-words" hidden><section class="panel ref" id="words"></section><section class="panel books" data-books="vix"></section></div>
+    <div id="t-words" hidden><section class="panel ref" id="words"></section><section class="panel ref" id="more"></section><section class="panel books" data-books="vix,kinri,shippai,chobo,heiho,anomaly"></section></div>
     <div id="t-toi" hidden><section class="panel" id="toilist"></section><section class="panel books" data-books="shippai"></section></div>
     <div id="t-heiho" hidden><section class="panel" id="heiholist"></section><section class="panel books" data-books="heiho"></section></div>
     <div id="t-biases" hidden><section class="panel" id="acts"></section><section class="panel books" data-books="vix"></section></div>
@@ -165,7 +165,7 @@ h1{margin:0;font-size:21px;font-weight:800;letter-spacing:.04em;line-height:1.15
 <script src="calendar.js"></script>
 <script src="words.js"></script>
 <script>
-const APP_VER="mind-v32";
+const APP_VER="mind-v33";
 const $=id=>document.getElementById(id);
 const DATA_BASE="/mri-app/data/";
 // language: shared with the other apps on this site ("lang" in localStorage)
@@ -210,7 +210,9 @@ const MARK={};for(const k in SHAPE)MARK[k]=`<svg class="mk" viewBox="0 0 16 16" 
 const BOOKS={vix:[["VIXの声を聴け","https://amzn.asia/d/0hrhh1Ny","icons/book-vix.jpg"],["Listen to VIX","https://amzn.asia/d/07rtXhVo","icons/book-vix-en.jpg"]],
   shippai:[["失敗の魔術師","https://amzn.asia/d/0hWKU73R","icons/book-shippai.jpg"],["失敗の魔術師","https://amzn.asia/d/0hWKU73R","icons/book-shippai.jpg"]],
   heiho:[["兵法に学べ","https://amzn.asia/d/02BQOi5d","icons/book-heiho.jpg"],["兵法に学べ","https://amzn.asia/d/02BQOi5d","icons/book-heiho.jpg"]],
-  anomaly:[["相場のアノマリーを斬る","https://amzn.asia/d/0boQWl0D","icons/book-anomaly.jpg"],["相場のアノマリーを斬る","https://amzn.asia/d/0boQWl0D","icons/book-anomaly.jpg"]]};
+  anomaly:[["相場のアノマリーを斬る","https://amzn.asia/d/0boQWl0D","icons/book-anomaly.jpg"],["相場のアノマリーを斬る","https://amzn.asia/d/0boQWl0D","icons/book-anomaly.jpg"]],
+  kinri:[["金利の重力","https://amzn.asia/d/04cgLpEq","icons/book-kinri.jpg"],["金利の重力","https://amzn.asia/d/04cgLpEq","icons/book-kinri.jpg"]],
+  chobo:[["帳簿と物差し","https://amzn.asia/d/03aL6HY1","icons/book-chobo.jpg"],["帳簿と物差し","https://amzn.asia/d/03aL6HY1","icons/book-chobo.jpg"]]};
 const KAN=["〇","一","二","三","四","五","六","七","八","九","十","十一","十二"];
 const BK=k=>P(BOOKS[k]),bookName=k=>{const b=BK(k)[0];return /^[\x00-\x7F]+$/.test(b)?b:`『${b}』`};
 
@@ -346,6 +348,11 @@ function renderToday(J){
 function renderRef(){
   $("words").innerHTML=ph(L("30の言葉","30 words"),VIXCH(4))+
     WORDS.map(([g,ws])=>`<div class="grp">${P(g)}</div>`+ws.map(([n,ja,en])=>`<p><i>No. ${n}</i>${L(ja,en)}</p>`).join("")).join("");
+  // 続・30の言葉: lines from the other five books, kept as a stock (MORE in words.js), grouped by book
+  const MORE=window.MindData.MORE||[];
+  $("more").hidden=!MORE.length;
+  $("more").innerHTML=ph(L("続・30の言葉","More words"),L("ほかの5冊から","From the other five books"))+
+    MORE.map(([k,ws])=>`<div class="grp">${bookName(k)}</div>`+ws.map(([n,ja,en,sc,ch])=>`<p><i>No. ${n}${ch?`　${P(ch)}`:""}</i>${L(ja,en)}</p>`).join("")).join("");
   $("acts").innerHTML=ph(L("四幕と10のバイアス","Four acts, ten biases"),VIXCH(5))+
     ACTS.map(a=>`<div class="act"><h3>${P(a[0])}　${P(a[1])}<small>${P(a[2])}</small></h3>${a[3].map(b=>`<div class="bias"><h3>${BN(b)}</h3><p>${BT(b)}</p></div>`).join("")}</div>`).join("");
   const PARTS=[[["第一部　退場した者","Part 1 · Those forced out"],["ltcm","leo","livermore"]],[["第二部　戻ってきた者","Part 2 · Those who came back"],["burry","dalio","simons"]],[["第三部　渡さなかった者","Part 3 · Those who never handed it over"],["buffett","marks"]]];
