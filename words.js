@@ -38,7 +38,8 @@ const BIAS2={};  // filled one by one as each is approved
 // 続・30の言葉: new words drawn from the other five books, added one by one as each is approved
 // [[group ja, group en], [[number, ja, en, scenes, related book keys], ...]]
 const MORE=[
-  [["平時の仕事","The work of ordinary days"],[[31,"何も起きない日が、いちばん長い。備えは、その長さに負けないためにある。","The days when nothing happens are the longest. Preparation exists so that you do not lose to their length.",["calm"],["heiho"]],[32,"確信は、平時にしか集められない。嵐の中で拾えるのは、噂だけだ。","Conviction can only be gathered in ordinary times. All you can pick up in the storm is rumor.",["calm","after"],["heiho"]],[33,"何もしないと決めるのが最も難しいのは、動く理由が見つかった日だ。","Deciding to do nothing is hardest on the day you find a reason to move.",["calm","balloon"],["heiho"]]]]
+  [["平時の仕事","The work of ordinary days"],[[31,"何も起きない日が、いちばん長い。備えは、その長さに負けないためにある。","The days when nothing happens are the longest. Preparation exists so that you do not lose to their length.",["calm"],["heiho"]],[32,"確信は、平時にしか集められない。嵐の中で拾えるのは、噂だけだ。","Conviction can only be gathered in ordinary times. All you can pick up in the storm is rumor.",["calm","after"],["heiho"]],[33,"何もしないと決めるのが最も難しいのは、動く理由が見つかった日だ。","Deciding to do nothing is hardest on the day you find a reason to move.",["calm","balloon"],["heiho"]]]],
+  [["現在地を測る","Measuring where you stand"],[[34,"明日は読めない。今どこにいるかは測れる。測れるものだけを測る。","Tomorrow can't be read. Where you stand now can be measured. Measure only what can be measured.",["calm","balloon"],["shippai","kinri","chobo"]]]]
 ];
 root.MindData={WORDS,BIAS,SCENES,BIAS2,MORE};
 })(typeof window!=="undefined"?window:globalThis);
