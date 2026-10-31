@@ -32,5 +32,11 @@ const SCENES={
   panic:[2,["パニック","Panic"],["VIXイベント発生中。VIXが+2σを超えた。全員が売っている。その瞬間に大底は形成される。","A VIX event is under way. VIX has crossed +2σ. Everyone is selling. That is the moment the bottom forms."],["herd"],[1,2,11,24,13,7,27,28]],
   rebound:[3,["コツン","The knock"],["5日LWMAが10日LWMAを下回った。恐怖の頂点は過ぎた。最後の壁は、自分の中にある。","The 5-day LWMA has crossed under the 10-day. The peak of fear has passed. The last wall is inside you."],["loss","anchor","status"],[22,23,19,8,14,2]],
   quiet:[3,["静かな底","Quiet bottom"],["VIXイベントなしに MRI が BUY を示している。2022年のように、風船は針で割れずに萎むこともある。","MRI is signaling BUY without a VIX event. As in 2022, a balloon can deflate without a needle."],["loss","anchor","status"],[23,19,22,25,8,5,27,28]]};
-root.MindData={WORDS,BIAS,SCENES};
+// other biases common in investing (written for the app, beyond the ten of 『VIXの声を聴け』 chapter 5), by act:
+// key: [ja name, ja text, en name, en text, act 0-3, related book key or ""]
+const BIAS2={};  // filled one by one as each is approved
+// 続・30の言葉: new words drawn from the other five books, added one by one as each is approved
+// [[group ja, group en], [[number, ja, en, scenes, related book keys], ...]]
+const MORE=[];
+root.MindData={WORDS,BIAS,SCENES,BIAS2,MORE};
 })(typeof window!=="undefined"?window:globalThis);

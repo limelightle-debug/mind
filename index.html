@@ -156,7 +156,7 @@ h1{margin:0;font-size:21px;font-weight:800;letter-spacing:.04em;line-height:1.15
     <div id="t-words" hidden><section class="panel ref" id="words"></section><section class="panel ref" id="more"></section><section class="panel books" data-books="vix,kinri,shippai,chobo,heiho,anomaly"></section></div>
     <div id="t-toi" hidden><section class="panel" id="toilist"></section><section class="panel books" data-books="shippai"></section></div>
     <div id="t-heiho" hidden><section class="panel" id="heiholist"></section><section class="panel books" data-books="heiho"></section></div>
-    <div id="t-biases" hidden><section class="panel" id="acts"></section><section class="panel books" data-books="vix"></section></div>
+    <div id="t-biases" hidden><section class="panel" id="acts"></section><section class="panel" id="acts2"></section><section class="panel books" data-books="vix,shippai,heiho,anomaly"></section></div>
     <div id="t-anomaly" hidden><section class="panel" id="anomaly"></section><section class="panel books" data-books="anomaly"></section></div>
   </main>
   <div class="foot">© 恐怖指数研究所 Gold Locks</div>
@@ -165,7 +165,7 @@ h1{margin:0;font-size:21px;font-weight:800;letter-spacing:.04em;line-height:1.15
 <script src="calendar.js"></script>
 <script src="words.js"></script>
 <script>
-const APP_VER="mind-v33";
+const APP_VER="mind-v34";
 const $=id=>document.getElementById(id);
 const DATA_BASE="/mri-app/data/";
 // language: shared with the other apps on this site ("lang" in localStorage)
@@ -351,10 +351,15 @@ function renderRef(){
   // 続・30の言葉: lines from the other five books, kept as a stock (MORE in words.js), grouped by book
   const MORE=window.MindData.MORE||[];
   $("more").hidden=!MORE.length;
-  $("more").innerHTML=ph(L("続・30の言葉","More words"),L("ほかの5冊から","From the other five books"))+
-    MORE.map(([k,ws])=>`<div class="grp">${bookName(k)}</div>`+ws.map(([n,ja,en,sc,ch])=>`<p><i>No. ${n}${ch?`　${P(ch)}`:""}</i>${L(ja,en)}</p>`).join("")).join("");
+  $("more").innerHTML=ph(L("続・30の言葉","More words"),L("ほかの5冊を参照して","Drawn from the other five books"))+
+    MORE.map(([g,ws])=>`<div class="grp">${P(g)}</div>`+ws.map(([n,ja,en,sc,bk])=>`<p><i>No. ${n}${bk&&bk.length?`　${L("参照 ","See ")}${bk.map(bookName).join(" ")}`:""}</i>${L(ja,en)}</p>`).join("")).join("");
   $("acts").innerHTML=ph(L("四幕と10のバイアス","Four acts, ten biases"),VIXCH(5))+
     ACTS.map(a=>`<div class="act"><h3>${P(a[0])}　${P(a[1])}<small>${P(a[2])}</small></h3>${a[3].map(b=>`<div class="bias"><h3>${BN(b)}</h3><p>${BT(b)}</p></div>`).join("")}</div>`).join("");
+  // その他のバイアス: the ones common in investing beyond the book's ten, by the act where they bite
+  const B2=window.MindData.BIAS2||{};
+  $("acts2").hidden=!Object.keys(B2).length;
+  $("acts2").innerHTML=ph(L("その他のバイアス","Other biases"),L("投資で起こる典型的なもの","Common in investing"))+
+    ACTS.map((a,i)=>{const ks=Object.keys(B2).filter(k=>B2[k][4]===i);return ks.length?`<div class="act"><h3>${P(a[0])}　${P(a[1])}</h3>${ks.map(k=>{const b=B2[k];return `<div class="bias"><h3>${L(b[0],b[2])}</h3><p>${L(b[1],b[3])}</p>${b[5]?`<span class="cap">${L("参照 ","See ")}${bookName(b[5])}</span>`:""}</div>`}).join("")}</div>`:""}).join("");
   const PARTS=[[["第一部　退場した者","Part 1 · Those forced out"],["ltcm","leo","livermore"]],[["第二部　戻ってきた者","Part 2 · Those who came back"],["burry","dalio","simons"]],[["第三部　渡さなかった者","Part 3 · Those who never handed it over"],["buffett","marks"]]];
   $("toilist").innerHTML=ph(L("四つの問い","Four questions"),`${bookName("shippai")}${L("終章"," · Final ch.")}`)+
     TOI.map((q,i)=>`<div class="an"><i class="v">${i+1}</i><div><b>${QL(q)}</b></div></div>`).join("")+
